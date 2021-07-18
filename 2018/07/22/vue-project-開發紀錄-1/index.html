@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"FJ6AHL5RCN","apiKey":"0ab28386046ab088151b79050ba0ad5f","indexName":"github-blogs","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+<meta name="description" content="頭一次用 Vue.js 來開發整個網站的專案，雖然還沒全部做完，還是先來做一下至目前為止的一些記錄，提供日後有需要的時候可以參考。專案是使用 vue-cli 3.0 版本產生的，環境所需 Node &gt;&#x3D;8.，目前本機環境 node.js v6.9.5，因為有舊專案的需求，所以不敢直接更新上去，所以使用 nvm 來安裝不同版本的 node.js 初始化專案指令 vue init webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js 專案開發紀錄 Part 1">
+<meta property="og:url" content="https://soarlin.github.io/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-1/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="頭一次用 Vue.js 來開發整個網站的專案，雖然還沒全部做完，還是先來做一下至目前為止的一些記錄，提供日後有需要的時候可以參考。專案是使用 vue-cli 3.0 版本產生的，環境所需 Node &gt;&#x3D;8.，目前本機環境 node.js v6.9.5，因為有舊專案的需求，所以不敢直接更新上去，所以使用 nvm 來安裝不同版本的 node.js 初始化專案指令 vue init webpack">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://soarlin.github.io/images/vue2/project-src.png">
+<meta property="article:published_time" content="2018-07-22T01:24:42.000Z">
+<meta property="article:modified_time" content="2021-07-18T07:52:38.937Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="vuex">
+<meta property="article:tag" content="i18n">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="vuejs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://soarlin.github.io/images/vue2/project-src.png">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-1/","path":"2018/07/22/vue-project-開發紀錄-1/","title":"Vue.js 專案開發紀錄 Part 1"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Vue.js 專案開發紀錄 Part 1 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">SoarLin</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E7%9B%AE%E9%8C%84%E6%BC%94%E9%80%B2"><span class="nav-number">1.</span> <span class="nav-text">專案目錄演進</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#assets-%E5%85%A7%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">assets 內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#components-%E5%85%A7%E5%AE%B9"><span class="nav-number">1.2.</span> <span class="nav-text">components 內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#helpers-%E5%85%A7%E5%AE%B9"><span class="nav-number">1.3.</span> <span class="nav-text">helpers 內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#i18n-%E5%85%A7%E5%AE%B9"><span class="nav-number">1.4.</span> <span class="nav-text">i18n 內容</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">111</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue.js 專案開發紀錄 Part 1
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-07-22 09:24:42" itemprop="dateCreated datePublished" datetime="2018-07-22T09:24:42+08:00">2018-07-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新於</span>
+        <time title="修改時間：2021-07-18 15:52:38" itemprop="dateModified" datetime="2021-07-18T15:52:38+08:00">2021-07-18</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Frontend/" itemprop="url" rel="index"><span itemprop="name">Frontend</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/22/vue-project-開發紀錄-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>頭一次用 Vue.js 來開發整個網站的專案，雖然還沒全部做完，還是先來做一下至目前為止的一些記錄，提供日後有需要的時候可以參考。專案是使用 vue-cli 3.0 版本產生的，環境所需 <code>Node &gt;=8.</code>，目前本機環境 node.js v6.9.5，因為有舊專案的需求，所以不敢直接更新上去，所以使用 nvm 來安裝不同版本的 node.js</p>
+<p>初始化專案指令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vue init webpack &lt;project-name&gt;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 這裏 project-name 以 vue-hello 為例</span><br><span class="line"></span><br><span class="line">? Project name vue-hello</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author Soar &lt;soar.lin@gmail.com&gt;</span><br><span class="line">? Vue build standalone</span><br><span class="line">? Install vue-router? Yes</span><br><span class="line">? Use ESLint to lint your code? Yes</span><br><span class="line">? Pick an ESLint preset Standard</span><br><span class="line">? Set up unit tests Yes</span><br><span class="line">? Pick a test runner jest</span><br><span class="line">? Setup e2e tests with Nightwatch? Yes</span><br><span class="line">? Should we run `npm install` for you after the project has been created? (recommended) (Use arrow keys) yarn</span><br><span class="line"></span><br><span class="line">   vue-cli · Generated &quot;vue-hello&quot;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Installing project dependencies ...</span><br><span class="line"># ========================</span><br><span class="line">yarn install v1.3.2</span><br><span class="line">info No lockfile found.</span><br><span class="line">[1/5] 🔍  Validating package.json...</span><br><span class="line">[2/5] 🔍  Resolving packages...</span><br><span class="line">.....</span><br><span class="line">[3/5] 🚚  Fetching packages...</span><br><span class="line">[##############################################################################################------------------------] 975/1223</span><br><span class="line">   vue-cli · Generated &quot;vue-hello&quot;.</span><br><span class="line"></span><br><span class="line"># Installing project dependencies ...</span><br><span class="line">[4/5] 🔗  Linking dependencies...</span><br><span class="line">[5/5] 📃  Building fresh packages...</span><br><span class="line">success Saved lockfile.</span><br><span class="line">✨  Done in 68.73s.</span><br><span class="line"></span><br><span class="line">Running eslint --fix to comply with chosen preset rules...</span><br><span class="line"># ========================</span><br><span class="line"></span><br><span class="line">yarn run v1.3.2</span><br><span class="line">$ eslint --ext .js,.vue src test/unit test/e2e/specs --fix</span><br><span class="line">✨  Done in 2.24s.</span><br><span class="line"></span><br><span class="line"># Project initialization finished!</span><br><span class="line"># ========================</span><br><span class="line"></span><br><span class="line">To get started:</span><br><span class="line"></span><br><span class="line">  cd vue-hello</span><br><span class="line">  npm run dev</span><br><span class="line"></span><br><span class="line">Documentation can be found at https://vuejs-templates.github.io/webpack</span><br></pre></td></tr></table></figure>
+
+<h1 id="專案目錄演進"><a href="#專案目錄演進" class="headerlink" title="專案目錄演進"></a>專案目錄演進</h1><p><img src="/images/vue2/project-src.png" alt="Vue專案目錄結構演進"></p>
+<p>綠色框框的部分，隨著專案持續開發下去，內容越來越多，也持續在做些目錄的調整，雖然覺得還可以改得更好，不過目前專案就一人開發，所以我覺得還行就這麼繼續下去了。</p>
+<h2 id="assets-內容"><a href="#assets-內容" class="headerlink" title="assets 內容"></a>assets 內容</h2><p>assets 的內容主要都用來放些程式在編譯時，會共用到的檔案，由於不想把圖檔一起做編譯，所以後來都移到 <code>/static/images/</code> 下了，而 <code>semantic-ui-calendar</code> 則是因為手動調整了一些這個套件的內容，雖然發了 pull request，不過該專案的作者似乎不太想理我…Orz，所以只好每次編譯都得另外載入自己修改的 js 檔</p>
+<p>而 <code>/assets/sass/</code> 下目前放著兩個檔案，每次 vue component 編譯時，皆會預先載入 resources.sass，然後再透過 resources.sass 來 <code>import common.sass</code>，至於修改方式在上一篇文章有<a href="http://soarlin.github.io/2018/06/02/Vue-%E4%BD%BF%E7%94%A8Firebase-Cloud-Messaging/#Vue-%E5%B0%88%E6%A1%88%E5%85%A7%E4%BD%BF%E7%94%A8%E5%85%B1%E5%90%8C-SASS-%E8%B3%87%E6%BA%90">寫道</a></p>
+<ul>
+<li>resources.sass : 用來定義CSS顏色變數，mixin function，media query 語法等等</li>
+<li>common.sass : 用來撰寫一些客製化的共通元件 style，如：sidebar, modal, button …等</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// resources.sass</span><br><span class="line">　　　</span><br><span class="line">/* Colors */</span><br><span class="line">$greeny-blue: #34aeab</span><br><span class="line">$grapefruit: #fc5857</span><br><span class="line">$flat-blue: #398eab</span><br><span class="line">$denim: #366474</span><br><span class="line">....</span><br><span class="line"></span><br><span class="line">@mixin ellipsis($line:1)</span><br><span class="line">  text-overflow: ellipsis</span><br><span class="line">  overflow: hidden</span><br><span class="line"></span><br><span class="line">  @if $line == 1</span><br><span class="line">    white-space: nowrap</span><br><span class="line">  @else</span><br><span class="line">    display: -webkit-box</span><br><span class="line">    -webkit-line-clamp: $line</span><br><span class="line">    -webkit-box-orient: vertical</span><br><span class="line"></span><br><span class="line">@mixin size($w, $h:$w, $bdrs:0)</span><br><span class="line">  width: $w</span><br><span class="line">  height: $h</span><br><span class="line">  border-radius: $bdrs</span><br><span class="line"></span><br><span class="line">@mixin flex($jc:center, $ai:center)</span><br><span class="line">  display: flex</span><br><span class="line">  justify-content: $jc</span><br><span class="line">  align-items: $ai</span><br><span class="line"></span><br><span class="line">/* large desktop */</span><br><span class="line">$desktop-lg-min: 1200px;</span><br><span class="line">/* normal desktop range */</span><br><span class="line">$desktop-max:    1199px;</span><br><span class="line">$desktop-min:     992px;</span><br><span class="line">/* tablet range */</span><br><span class="line">$tablet-max:      991px;</span><br><span class="line">$tablet-min:      768px;</span><br><span class="line">$mobile-max:      767px;</span><br><span class="line">$mobile-min:      480px;</span><br><span class="line"></span><br><span class="line">@mixin lg-desktop</span><br><span class="line">  @media screen and (min-width: $desktop-lg-min)</span><br><span class="line">    @content</span><br><span class="line">@mixin desktop</span><br><span class="line">  @media screen and (max-width: $desktop-max)</span><br><span class="line">    @content</span><br><span class="line">@mixin tablet</span><br><span class="line">  @media screen and (max-width: $tablet-max)</span><br><span class="line">    @content</span><br><span class="line">@mixin phone</span><br><span class="line">  @media screen and (max-width: $mobile-max)</span><br><span class="line">    @content</span><br><span class="line">@mixin phoneV</span><br><span class="line">  @media screen and (max-width: $mobile-min)</span><br><span class="line">    @content</span><br><span class="line"></span><br><span class="line">/* margin-top 10~100 */</span><br><span class="line">@for $i from 1 through 10</span><br><span class="line">  .mt#&#123;$i&#125;0</span><br><span class="line">    margin-top: $i * 10px</span><br><span class="line"></span><br><span class="line">/* margin-bottom 10~100 */</span><br><span class="line">@for $i from 1 through 10</span><br><span class="line">  .mb#&#123;$i&#125;0</span><br><span class="line">    margin-bottom: $i * 10px</span><br><span class="line"></span><br><span class="line">@import &#x27;./common.sass&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="components-內容"><a href="#components-內容" class="headerlink" title="components 內容"></a>components 內容</h2><p>原本會將每個頁面的 .vue 檔放在這裡，做了一陣子後覺得，頁面歸頁面，這目錄下還是放些單純一點的元件，事實證明好像沒什麼差別，單純就是自己爽就好，目前這裡放了些某些畫面上會使用到的元件，有個小型客製化的時間選擇器，用來選擇每間隔 15 分鐘的時間，另外的是畫面的 sidebar 內容，sidebar 內容其實做了很多東西，不過由於不算是完整頁面，還是被我歸類到這目錄下了</p>
+<h2 id="helpers-內容"><a href="#helpers-內容" class="headerlink" title="helpers 內容"></a>helpers 內容</h2><p>之前不曉得在哪裡看到有個教學用了這樣的目錄，然後裡面主要是定義一些變數讓整個專案來使用，很想學習這樣的做法，不過目前有點東施效顰吧！裡面也沒放幾個變數，一個是 CDN 路徑，一個是 Object hasOwnProperty 的檢查，不過另外寫了一個取得目前執行環境所用到的 API 路徑，以及一堆時間計算、字串處理的 function</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import moment from &#x27;moment&#x27;</span><br><span class="line">　　　</span><br><span class="line">const helpers = &#123;</span><br><span class="line">  getParameterByName (name, url) &#123;</span><br><span class="line">    if (!url) url = window.location.href</span><br><span class="line">    name = name.replace(/[[\]]/g, &#x27;\\$&amp;&#x27;)</span><br><span class="line">    let regex = new RegExp(&#x27;[?&amp;|#]&#x27; + name + &#x27;(=([^&amp;#]*)|&amp;|#|$)&#x27;)</span><br><span class="line">    let results = regex.exec(url)</span><br><span class="line">    if (!results) return null</span><br><span class="line">    if (!results[2]) return &#x27;&#x27;</span><br><span class="line">    return decodeURIComponent(results[2].replace(/\+/g, &#x27; &#x27;))</span><br><span class="line">  &#125;,</span><br><span class="line">  isEmpty (obj) &#123;</span><br><span class="line">    // null and undefined are &quot;empty&quot;</span><br><span class="line">    if (obj == null) return true</span><br><span class="line"></span><br><span class="line">    // Assume if it has a length property with a non-zero value</span><br><span class="line">    // that that property is correct.</span><br><span class="line">    if (obj.length &gt; 0) return false</span><br><span class="line">    if (obj.length === 0) return true</span><br><span class="line"></span><br><span class="line">    // If it isn&#x27;t an object at this point</span><br><span class="line">    // it is empty, but it can&#x27;t be anything *but* empty</span><br><span class="line">    // Is it empty?  Depends on your application.</span><br><span class="line">    if (typeof obj !== &#x27;object&#x27;) return true</span><br><span class="line"></span><br><span class="line">    // Otherwise, does it have any properties of its own?</span><br><span class="line">    // Note that this doesn&#x27;t handle</span><br><span class="line">    // toString and valueOf enumeration bugs in IE &lt; 9</span><br><span class="line">    for (var key in obj) &#123;</span><br><span class="line">      if (hasOwnProperty.call(obj, key)) return false</span><br><span class="line">    &#125;</span><br><span class="line">    return true</span><br><span class="line">  &#125;,</span><br><span class="line">  getCurrentTime (format) &#123;</span><br><span class="line">    return moment().format(format)</span><br><span class="line">  &#125;,</span><br><span class="line">  getNextDate (format) &#123;</span><br><span class="line">    return moment().add(1, &#x27;days&#x27;).format(format)</span><br><span class="line">  &#125;,</span><br><span class="line">  getPrevDate (format) &#123;</span><br><span class="line">    return moment().subtract(1, &#x27;days&#x27;).format(format)</span><br><span class="line">  &#125;,</span><br><span class="line">  nl2br (str, isXhtml) &#123;</span><br><span class="line">    var breakTag = (isXhtml || typeof isXhtml === &#x27;undefined&#x27;) ? &#x27;&lt;br /&gt;&#x27; : &#x27;&lt;br&gt;&#x27;</span><br><span class="line">    return (str + &#x27;&#x27;).replace(/([^&gt;\r\n]?)(\r\n|\n\r|\r|\n)/g, &#x27;$1&#x27; + breakTag + &#x27;$2&#x27;)</span><br><span class="line">  &#125;,</span><br><span class="line">  thousandComma (number) &#123;</span><br><span class="line">    let num = number.toString()</span><br><span class="line">    let pattern = /(-?\d+)(\d&#123;3&#125;)/</span><br><span class="line"></span><br><span class="line">    while (pattern.test(num)) &#123;</span><br><span class="line">      num = num.replace(pattern, &#x27;$1,$2&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    return num</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default helpers</span><br></pre></td></tr></table></figure>
+
+<h2 id="i18n-內容"><a href="#i18n-內容" class="headerlink" title="i18n 內容"></a>i18n 內容</h2><p>顧名思義就是用來放多語系的檔案，當初為了把多語系的部分搞定也是四處找資料，花了不少時間改好自己用的樣子</p>
+<p>目前使用的 <a target="_blank" rel="noopener" href="https://github.com/kazupon/vue-i18n">vue-i18n</a>的v.7.6版，<a target="_blank" rel="noopener" href="http://kazupon.github.io/vue-i18n/introduction.html">參考文件</a></p>
+<p>i18n 目錄如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">src/i18n</span><br><span class="line">├── index.js</span><br><span class="line">└── languages</span><br><span class="line">    ├── en-US.json</span><br><span class="line">    ├── ja-JP.json</span><br><span class="line">    ├── zh-CN.json</span><br><span class="line">    └── zh-TW.json</span><br></pre></td></tr></table></figure>
+
+<p>index.js 內容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import Vue from &#x27;vue&#x27;</span><br><span class="line">// Vuex-i18n</span><br><span class="line">import VueI18n from &#x27;vue-i18n&#x27;</span><br><span class="line">// i18n</span><br><span class="line">import zhTW from &#x27;./languages/zh-TW.json&#x27;</span><br><span class="line">import zhCN from &#x27;./languages/zh-CN.json&#x27;</span><br><span class="line">import jaJP from &#x27;./languages/ja-JP.json&#x27;</span><br><span class="line">import enUS from &#x27;./languages/en-US.json&#x27;</span><br><span class="line"></span><br><span class="line">// Vuex-i18n</span><br><span class="line">Vue.use(VueI18n)</span><br><span class="line"></span><br><span class="line">const messages = &#123;</span><br><span class="line">  &#x27;zh-TW&#x27;: zhTW,</span><br><span class="line">  &#x27;zh-CN&#x27;: zhCN,</span><br><span class="line">  &#x27;ja-JP&#x27;: jaJP,</span><br><span class="line">  &#x27;en-US&#x27;: enUS</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 1.檢查 localStorage 語系</span><br><span class="line">// 2.檢查瀏覽器語系</span><br><span class="line">// 3.預設英文語系</span><br><span class="line">let locale = localStorage.getItem(&#x27;LANGUAGE&#x27;) || navigator.language || &#x27;en-US&#x27;</span><br><span class="line"></span><br><span class="line">const i18n = new VueI18n(&#123;</span><br><span class="line">  locale,</span><br><span class="line">  fallbackLocale: &#x27;zh-TW&#x27;,</span><br><span class="line">  messages</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default i18n</span><br></pre></td></tr></table></figure>
+
+<p>而 languages 下的檔案內容，以 zh-TW.json 為例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;shortMonths&quot;: [&quot;1月&quot;, &quot;2月&quot;, &quot;3月&quot;, &quot;4月&quot;, &quot;5月&quot;, &quot;6月&quot;, &quot;7月&quot;, &quot;8月&quot;, &quot;9月&quot;, &quot;10月&quot;, &quot;11月&quot;, &quot;12月&quot;],</span><br><span class="line">  &quot;longMonths&quot;: [&quot;一月&quot;, &quot;二月&quot;, &quot;三月&quot;, &quot;四月&quot;, &quot;五月&quot;, &quot;六月&quot;, &quot;七月&quot;, &quot;八月&quot;, &quot;九月&quot;, &quot;十月&quot;, &quot;十一月&quot;, &quot;十二月&quot;],</span><br><span class="line">  &quot;shortDays&quot;: [&quot;日&quot;, &quot;一&quot;, &quot;二&quot;, &quot;三&quot;, &quot;四&quot;, &quot;五&quot;, &quot;六&quot;],</span><br><span class="line">  &quot;longDays&quot;: [&quot;星期日&quot;, &quot;星期一&quot;, &quot;星期二&quot;, &quot;星期三&quot;, &quot;星期四&quot;, &quot;星期五&quot;, &quot;星期六&quot;],</span><br><span class="line">  &quot;天&quot;: &quot;天&quot;,</span><br><span class="line">  &quot;時&quot;: &quot;時&quot;,</span><br><span class="line">  &quot;分&quot;: &quot;分&quot;,</span><br><span class="line">  &quot;小時&quot;: &quot;小時&quot;,</span><br><span class="line">  &quot;分鐘&quot;: &quot;分鐘&quot;,</span><br><span class="line"></span><br><span class="line">  &quot;確定&quot;: &quot;確定&quot;,</span><br><span class="line">  &quot;取消&quot;: &quot;取消&quot;,</span><br><span class="line">  &quot;關閉&quot;: &quot;關閉&quot;,</span><br><span class="line">  &quot;儲存&quot;: &quot;儲存&quot;,</span><br><span class="line">  &quot;上一步&quot;: &quot;上一步&quot;,</span><br><span class="line">  &quot;下一步&quot;: &quot;下一步&quot;,</span><br><span class="line"></span><br><span class="line">  &quot;消費稅 X%&quot;: &quot;消費稅 &#123;0&#125;%&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而在 .vue 檔內使用時，範例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;p&gt;日期：&#123;&#123; displayToday &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;!-- ... --&gt;</span><br><span class="line">  &lt;button&gt;&#123;&#123; $t(&#x27;確定&#x27;) &#125;&#125;&lt;/button&gt;</span><br><span class="line">  &lt;!-- ... --&gt;</span><br><span class="line">  &lt;p&gt;&#123;&#123; $t(&#x27;消費稅 X%&#x27;, [tax]) &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;!-- ... --&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import moment from &#x27;moment&#x27;</span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      tax: 8</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    displayToday () &#123;</span><br><span class="line">      let yyyy = moment().year()</span><br><span class="line">      let mm = moment().month()</span><br><span class="line">      let dd = moment().date()</span><br><span class="line">      let weekday = moment().day()</span><br><span class="line">      // 2018年7月22(日)</span><br><span class="line">      return yyyy + &#x27;年&#x27; + this.$i18n.t(&#x27;shortMonths&#x27;)[mm] + dd + &#x27;日&#x27; + &#x27;(&#x27; + this.$i18n.t(&#x27;shortDays&#x27;)[weekday] + &#x27;)&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>因為要寫的東西太多，所以決定偷懶分成不同 Part 來寫</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/vuex/" rel="tag"><i class="fa fa-tag"></i> vuex</a>
+              <a href="/tags/i18n/" rel="tag"><i class="fa fa-tag"></i> i18n</a>
+              <a href="/tags/webpack/" rel="tag"><i class="fa fa-tag"></i> webpack</a>
+              <a href="/tags/vuejs/" rel="tag"><i class="fa fa-tag"></i> vuejs</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/06/02/Vue-%E4%BD%BF%E7%94%A8Firebase-Cloud-Messaging/" rel="prev" title="Vue 使用 Firebase Cloud Messaging">
+                  <i class="fa fa-chevron-left"></i> Vue 使用 Firebase Cloud Messaging
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/07/22/vue-project-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-2/" rel="next" title="Vue.Js 專案開發紀錄 Part 2">
+                  Vue.Js 專案開發紀錄 Part 2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.2/dist/algoliasearch-lite.umd.js" integrity="sha256-QpiEPiLTebWnaWu14/C5XhRzUyh/OYx0CYWEHd9mv7o=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.24.2/dist/instantsearch.production.min.js" integrity="sha256-m6RnEITznVydRlSHfl3EknCIK6aL72SHYL9Ol+v5nNw=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.6.8/firebase-app.js" integrity="sha256-3hdiTmkDsofqAYaeI/xZx6N7xYgnG+aXWangXu+jtCg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.6.8/firebase-firestore.js" integrity="sha256-Itvsoir8vLRlK5Xg9Mz8vQqzJ6gVmc5GQ27rNTOZSOY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

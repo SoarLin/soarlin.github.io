@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"FJ6AHL5RCN","apiKey":"0ab28386046ab088151b79050ba0ad5f","indexName":"github-blogs","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+<meta name="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SoarLin">
+<meta property="og:url" content="https://soarlin.github.io/tags/pug/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Soar Lin">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://soarlin.github.io/tags/pug/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"tags/pug/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>標籤: pug | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">SoarLin</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li>
+        <li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">111</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner tag posts-collapse">
+
+
+  
+  
+  
+  <div class="post-block">
+    <div class="post-content">
+      <div class="collection-title">
+        <h2 class="collection-header">pug
+          <small>標籤</small>
+        </h2>
+      </div>
+
+      
+    <div class="collection-year">
+      <span class="collection-header">2021</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <div class="post-meta-container">
+        <time itemprop="dateCreated"
+              datetime="2021-04-09T22:08:57+08:00"
+              content="2021-04-09">
+          04-09
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/04/09/Webpack%E5%82%B3%E5%85%A5%E8%AE%8A%E6%95%B8%E5%88%B0pug-scss%E6%AA%94%E6%A1%88/" itemprop="url">
+            <span itemprop="name">透過 Webpack 傳入變數到 pug, scss 檔案內</span>
+          </a>
+      </div>
+
+      
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2020</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+      <div class="post-meta-container">
+        <time itemprop="dateCreated"
+              datetime="2020-07-18T16:21:27+08:00"
+              content="2020-07-18">
+          07-18
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2020/07/18/pug-sass-boilerplate/" itemprop="url">
+            <span itemprop="name">使用 Webpack 製作前端樣板 (以 Pug 與 Sass 開發)</span>
+          </a>
+      </div>
+
+      
+    </header>
+  </article>
+
+    </div>
+  </div>
+  
+  
+  
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.2/dist/algoliasearch-lite.umd.js" integrity="sha256-QpiEPiLTebWnaWu14/C5XhRzUyh/OYx0CYWEHd9mv7o=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.24.2/dist/instantsearch.production.min.js" integrity="sha256-m6RnEITznVydRlSHfl3EknCIK6aL72SHYL9Ol+v5nNw=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.6.8/firebase-app.js" integrity="sha256-3hdiTmkDsofqAYaeI/xZx6N7xYgnG+aXWangXu+jtCg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@8.6.8/firebase-firestore.js" integrity="sha256-Itvsoir8vLRlK5Xg9Mz8vQqzJ6gVmc5GQ27rNTOZSOY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
