@@ -312,34 +312,6 @@
 
   
   <url>
-    <loc>https://soarlin.github.io/tags/background/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/animation/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/transform/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/transition/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://soarlin.github.io/tags/facebook-sdk/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -362,6 +334,34 @@
   
   <url>
     <loc>https://soarlin.github.io/tags/ellipsis/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/animation/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/transform/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/background/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/transition/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -396,6 +396,27 @@
   </url>
   
   <url>
+    <loc>https://soarlin.github.io/tags/google-analytics/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/facebook-pixel/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/tracking/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://soarlin.github.io/tags/Laravel/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -411,6 +432,62 @@
   
   <url>
     <loc>https://soarlin.github.io/tags/elixir/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/less/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/mixins/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/RWD/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/color/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/css-preprocessor/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/linux/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/crontab/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/mount/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -445,55 +522,6 @@
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/tags/google-analytics/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/facebook-pixel/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/tracking/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/linux/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/crontab/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/mount/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/mixins/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://soarlin.github.io/tags/postcss/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -501,35 +529,7 @@
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/tags/RWD/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/color/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://soarlin.github.io/tags/css-post-processor/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/less/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/css-preprocessor/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -592,34 +592,6 @@
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/tags/i18n/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/twig/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/slim-3/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/gettext/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://soarlin.github.io/tags/git/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -649,13 +621,6 @@
   
   <url>
     <loc>https://soarlin.github.io/tags/webpack/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/npm/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -711,6 +676,83 @@
   </url>
   
   <url>
+    <loc>https://soarlin.github.io/tags/elasticsearch/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/java/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/maven/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/npm/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/eslint/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/index/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/query/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/koa/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/gulp/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/ejs/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/bower/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://soarlin.github.io/tags/applepay/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -739,55 +781,6 @@
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/tags/elasticsearch/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/index/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/query/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/koa/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/java/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/maven/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/eslint/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://soarlin.github.io/tags/gcp/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
@@ -803,27 +796,6 @@
   
   <url>
     <loc>https://soarlin.github.io/tags/google-compute-engine/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/msgfmt/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/otool/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/install-name-tool/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -886,28 +858,56 @@
   </url>
   
   <url>
+    <loc>https://soarlin.github.io/tags/gettext/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/msgfmt/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/otool/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/install-name-tool/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/i18n/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/twig/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/slim-3/</loc>
+    <lastmod>2021-07-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://soarlin.github.io/tags/axios/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/gulp/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/ejs/</loc>
-    <lastmod>2021-07-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://soarlin.github.io/tags/bower/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1091,14 +1091,14 @@
 
   
   <url>
-    <loc>https://soarlin.github.io/categories/Frontend/</loc>
+    <loc>https://soarlin.github.io/categories/PHP/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/categories/PHP/</loc>
+    <loc>https://soarlin.github.io/categories/Frontend/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1140,14 +1140,14 @@
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/categories/macOS/</loc>
+    <loc>https://soarlin.github.io/categories/CI-CD/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://soarlin.github.io/categories/CI-CD/</loc>
+    <loc>https://soarlin.github.io/categories/macOS/</loc>
     <lastmod>2021-07-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

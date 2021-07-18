@@ -284,11 +284,11 @@
     
     <category term="vuex" scheme="https://soarlin.github.io/tags/vuex/"/>
     
-    <category term="i18n" scheme="https://soarlin.github.io/tags/i18n/"/>
-    
     <category term="webpack" scheme="https://soarlin.github.io/tags/webpack/"/>
     
     <category term="vuejs" scheme="https://soarlin.github.io/tags/vuejs/"/>
+    
+    <category term="i18n" scheme="https://soarlin.github.io/tags/i18n/"/>
     
   </entry>
   
@@ -313,11 +313,11 @@
     
     <category term="vuex" scheme="https://soarlin.github.io/tags/vuex/"/>
     
-    <category term="i18n" scheme="https://soarlin.github.io/tags/i18n/"/>
-    
     <category term="webpack" scheme="https://soarlin.github.io/tags/webpack/"/>
     
     <category term="vuejs" scheme="https://soarlin.github.io/tags/vuejs/"/>
+    
+    <category term="i18n" scheme="https://soarlin.github.io/tags/i18n/"/>
     
   </entry>
   
@@ -646,13 +646,13 @@
     <category term="PHP" scheme="https://soarlin.github.io/categories/PHP/"/>
     
     
+    <category term="gettext" scheme="https://soarlin.github.io/tags/gettext/"/>
+    
     <category term="i18n" scheme="https://soarlin.github.io/tags/i18n/"/>
     
     <category term="twig" scheme="https://soarlin.github.io/tags/twig/"/>
     
     <category term="slim 3" scheme="https://soarlin.github.io/tags/slim-3/"/>
-    
-    <category term="gettext" scheme="https://soarlin.github.io/tags/gettext/"/>
     
   </entry>
   
@@ -693,11 +693,11 @@
     <category term="Frontend" scheme="https://soarlin.github.io/categories/Frontend/"/>
     
     
+    <category term="ellipsis" scheme="https://soarlin.github.io/tags/ellipsis/"/>
+    
     <category term="animation" scheme="https://soarlin.github.io/tags/animation/"/>
     
     <category term="transform" scheme="https://soarlin.github.io/tags/transform/"/>
-    
-    <category term="ellipsis" scheme="https://soarlin.github.io/tags/ellipsis/"/>
     
   </entry>
   
