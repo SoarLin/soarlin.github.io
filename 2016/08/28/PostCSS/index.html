@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="PostCSS 搭配 Plugin 變數 計算 顏色處理 mixins 混入 RWD 寫法參考       PostCSS 搭配 Plugin 需搭配安裝 postcss-import postcss-mixins postcss-nested postcss-nextcss autoprefixer, 由於 postcss-next 已經自動加入這項功能，因此需要移除 autoprefix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostCSS筆記">
+<meta property="og:url" content="https://soarlin.github.io/2016/08/28/PostCSS/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="PostCSS 搭配 Plugin 變數 計算 顏色處理 mixins 混入 RWD 寫法參考       PostCSS 搭配 Plugin 需搭配安裝 postcss-import postcss-mixins postcss-nested postcss-nextcss autoprefixer, 由於 postcss-next 已經自動加入這項功能，因此需要移除 autoprefix">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2016-08-28T10:26:47.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.423Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="mixins">
+<meta property="article:tag" content="RWD">
+<meta property="article:tag" content="color">
+<meta property="article:tag" content="postcss">
+<meta property="article:tag" content="css-post-processor">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2016/08/28/PostCSS/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2016/08/28/PostCSS/","path":"2016/08/28/PostCSS/","title":"PostCSS筆記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PostCSS筆記 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PostCSS"><span class="nav-number">1.</span> <span class="nav-text">PostCSS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E9%85%8D-Plugin"><span class="nav-number">1.1.</span> <span class="nav-text">搭配 Plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%8A%E6%95%B8"><span class="nav-number">1.2.</span> <span class="nav-text">變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%88%E7%AE%97"><span class="nav-number">1.3.</span> <span class="nav-text">計算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%8F%E8%89%B2%E8%99%95%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">顏色處理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixins-%E6%B7%B7%E5%85%A5"><span class="nav-number">1.5.</span> <span class="nav-text">mixins 混入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RWD-%E5%AF%AB%E6%B3%95%E5%8F%83%E8%80%83"><span class="nav-number">1.6.</span> <span class="nav-text">RWD 寫法參考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2016/08/28/PostCSS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PostCSS筆記 | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PostCSS筆記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2016-08-28 18:26:47" itemprop="dateCreated datePublished" datetime="2016-08-28T18:26:47+08:00">2016-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Frontend/" itemprop="url" rel="index"><span itemprop="name">Frontend</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/28/PostCSS/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/PostCSS/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#postcss">PostCSS</a><ul>
+<li><a href="#%E6%90%AD%E9%85%8D-plugin">搭配 Plugin</a></li>
+<li><a href="#%E8%AE%8A%E6%95%B8">變數</a></li>
+<li><a href="#%E8%A8%88%E7%AE%97">計算</a></li>
+<li><a href="#%E9%A1%8F%E8%89%B2%E8%99%95%E7%90%86">顏色處理</a></li>
+<li><a href="#mixins-%E6%B7%B7%E5%85%A5">mixins 混入</a></li>
+<li><a href="#rwd-%E5%AF%AB%E6%B3%95%E5%8F%83%E8%80%83">RWD 寫法參考</a></li>
+</ul>
+</li>
+</ul>
+<!-- /MarkdownTOC -->
+
+<p><a name="postcss"></a></p>
+<h1 id="PostCSS"><a href="#PostCSS" class="headerlink" title="PostCSS"></a>PostCSS</h1><p><a name="搭配-plugin"></a></p>
+<h2 id="搭配-Plugin"><a href="#搭配-Plugin" class="headerlink" title="搭配 Plugin"></a>搭配 Plugin</h2><ul>
+<li>需搭配安裝<ul>
+<li><code>postcss-import</code></li>
+<li><code>postcss-mixins</code></li>
+<li><code>postcss-nested</code></li>
+<li><code>postcss-nextcss</code></li>
+<li><del><code>autoprefixer</code></del>, 由於 <code>postcss-next</code> 已經自動加入這項功能，因此需要移除 <del><code>autoprefixer</code></del></li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<p><a name="變數"></a></p>
+<h2 id="變數"><a href="#變數" class="headerlink" title="變數"></a>變數</h2><ul>
+<li>定義在 <code>:root &#123; &#125;</code> 裡面</li>
+<li>使用時透過 <code>var(變數)</code> 來使用</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">    --mainColor: <span class="number">#4fc5cf</span>;</span><br><span class="line">    --fontColor: <span class="number">#eee</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">var</span>(--mainColor);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">var</span>(--fontColor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="計算"></a></p>
+<h2 id="計算"><a href="#計算" class="headerlink" title="計算"></a>計算</h2><ul>
+<li>使用function <code>calc</code></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-pseudo">:root</span> &#123;</span><br><span class="line">    --spaceUnit: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mt-20</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="built_in">calc</span>(<span class="built_in">var</span>(--spaceUnit) * <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="顏色處理"></a></p>
+<h2 id="顏色處理"><a href="#顏色處理" class="headerlink" title="顏色處理"></a>顏色處理</h2><ul>
+<li><code>color( [ &lt;color&gt; | &lt;hue&gt; ] &lt;color-adjuster&gt;* )</code></li>
+<li>color-adjuster<ul>
+<li><code>[red( | green( | blue( | alpha( | a(] [&#39;+&#39; | &#39;-&#39;]? [&lt;number&gt; | &lt;percentage&gt;] )</code></li>
+<li>色調值 HSL中的H <code>hue( | h(] [&#39;+&#39; | &#39;-&#39; | &#39;*&#39;]? &lt;angle&gt; )</code></li>
+<li>飽和度 HSL中的S <code>saturation( | s(] [&#39;+&#39; | &#39;-&#39; | &#39;*&#39;]? &lt;percentage&gt; )</code></li>
+<li>亮度 HSL中的L <code>lightness( | l(] [&#39;+&#39; | &#39;-&#39; | &#39;*&#39;]? &lt;percentage&gt; )</code></li>
+<li>調白 <code>whiteness( | w(] [&#39;+&#39; | &#39;-&#39; | &#39;*&#39;]? &lt;percentage&gt; )</code> or <code>tint( &lt;percentage&gt; )</code></li>
+<li>調黑 <code>blackness( | b(] [&#39;+&#39; | &#39;-&#39; | &#39;*&#39;]? &lt;percentage&gt; )</code> or <code>shade( &lt;percentage&gt; )</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">whatever &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">color</span>(red <span class="built_in">a</span>(<span class="number">10%</span>));</span><br><span class="line"></span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">color</span>(red <span class="built_in">lightness</span>(<span class="number">50%</span>));</span><br><span class="line">    <span class="comment">/* == color(red l(50%)); */</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">border-color</span>: <span class="built_in">color</span>(<span class="built_in">hsla</span>(<span class="number">125</span>, <span class="number">50%</span>, <span class="number">50%</span>, .<span class="number">4</span>) <span class="built_in">saturation</span>(+ <span class="number">10%</span>) <span class="built_in">w</span>(- <span class="number">20%</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="mixins-混入"></a></p>
+<h2 id="mixins-混入"><a href="#mixins-混入" class="headerlink" title="mixins 混入"></a>mixins 混入</h2><ul>
+<li>需安裝 <code>postcss-mixins</code></li>
+<li>定義 <code>@define-mixin 名稱 $param1, $param2(有預設值)</code></li>
+<li>使用 <code>@mixin 名稱 $param1</code> or <code>@mixin 名稱 $param1 $param2</code></li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@define-mixin</span> icon <span class="variable">$network</span>, <span class="variable">$color</span>: blue &#123;</span><br><span class="line">    <span class="selector-class">.icon</span><span class="selector-class">.is-</span>$(network) &#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">        <span class="keyword">@mixin-content</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.icon</span><span class="selector-class">.is-</span>$(network)<span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: white;</span><br><span class="line">        <span class="attribute">background</span>: <span class="variable">$color</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@mixin</span> icon twitter &#123;</span><br><span class="line">    <span class="attribute">background</span>: url(twt.png);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@mixin</span> icon youtube, red &#123;</span><br><span class="line">    <span class="attribute">background</span>: url(youtube.png);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="rwd-寫法參考"></a></p>
+<h2 id="RWD-寫法參考"><a href="#RWD-寫法參考" class="headerlink" title="RWD 寫法參考"></a>RWD 寫法參考</h2><ul>
+<li>定義不同尺寸 <code>@custom-media --tablets (max-width: 992px);</code></li>
+<li>使用時 <code>@media (--tablets) &#123; ... &#125;</code></li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@custom-media</span> --phone (<span class="attribute">width</span> &lt; <span class="number">768px</span>);</span><br><span class="line"><span class="keyword">@custom-media</span> --tablets (<span class="attribute">width</span> &lt;= <span class="number">992px</span>);</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.banner</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">666px</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@media</span>(--tablets) &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">        <span class="attribute">max-width</span>: <span class="number">550px</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">@media</span>(--phone) &#123;</span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/mixins/" rel="tag"><i class="fa fa-tag"></i> mixins</a>
+              <a href="/tags/RWD/" rel="tag"><i class="fa fa-tag"></i> RWD</a>
+              <a href="/tags/color/" rel="tag"><i class="fa fa-tag"></i> color</a>
+              <a href="/tags/postcss/" rel="tag"><i class="fa fa-tag"></i> postcss</a>
+              <a href="/tags/css-post-processor/" rel="tag"><i class="fa fa-tag"></i> css-post-processor</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/08/28/Sass%E7%AD%86%E8%A8%98/" rel="prev" title="Sass筆記">
+                  <i class="fa fa-chevron-left"></i> Sass筆記
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/08/28/Less%E7%AD%86%E8%A8%98/" rel="next" title="Less筆記">
+                  Less筆記 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

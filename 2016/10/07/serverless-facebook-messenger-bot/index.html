@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Build a Serverless Facebook Messenger Chatbot 準備工具與服務 安裝 Serverless Framework AWS 前置作業 - IAM Facebook 前置作業   建立 Serverless 專案 Serverless 環境設定 Functoin 參考 AWS 上服務檢查 API Gateway 設定確認 Lambda 確認   FB P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build a Serverless Facebook Messenger Chatbot">
+<meta property="og:url" content="https://soarlin.github.io/2016/10/07/serverless-facebook-messenger-bot/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="Build a Serverless Facebook Messenger Chatbot 準備工具與服務 安裝 Serverless Framework AWS 前置作業 - IAM Facebook 前置作業   建立 Serverless 專案 Serverless 環境設定 Functoin 參考 AWS 上服務檢查 API Gateway 設定確認 Lambda 確認   FB P">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/IAM-1.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/IAM-2.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/fb-page1.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/fb-page2.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/fb-page-access-token.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/FB-APIGateway.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/API-Gateway1.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/API-Gateway2.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/API-Gateway3.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/lambda.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/GraphAPIExplorer1.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/GraphAPIExplorer2.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/fb-webhook.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/subscribe_page.png">
+<meta property="og:image" content="https://soarlin.github.io/images/serverless/chat-sample.jpg">
+<meta property="article:published_time" content="2016-10-07T05:49:37.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.426Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="lambda">
+<meta property="article:tag" content="serverless">
+<meta property="article:tag" content="apigateway">
+<meta property="article:tag" content="webhook">
+<meta property="article:tag" content="facebook">
+<meta property="article:tag" content="messenger">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://soarlin.github.io/images/serverless/IAM-1.jpg">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2016/10/07/serverless-facebook-messenger-bot/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2016/10/07/serverless-facebook-messenger-bot/","path":"2016/10/07/serverless-facebook-messenger-bot/","title":"Build a Serverless Facebook Messenger Chatbot"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Build a Serverless Facebook Messenger Chatbot | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-a-Serverless-Facebook-Messenger-Chatbot"><span class="nav-number">1.</span> <span class="nav-text">Build a Serverless Facebook Messenger Chatbot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%96%E5%82%99%E5%B7%A5%E5%85%B7%E8%88%87%E6%9C%8D%E5%8B%99"><span class="nav-number">1.1.</span> <span class="nav-text">準備工具與服務</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Serverless-Framework"><span class="nav-number">1.1.1.</span> <span class="nav-text">安裝 Serverless Framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AWS-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD-IAM"><span class="nav-number">1.1.2.</span> <span class="nav-text">AWS 前置作業 - IAM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-IAM-user-%E4%B8%A6%E7%B5%A6%E4%BA%88%E6%AC%8A%E9%99%90-%E6%95%99%E5%AD%B8"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">建立 IAM user 並給予權限 (教學)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E6%A9%9F%E8%A8%AD%E5%AE%9A-AWS-API-Key-amp-Secret"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">在本機設定 AWS API Key &amp; Secret</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Facebook-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="nav-number">1.1.3.</span> <span class="nav-text">Facebook 前置作業</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-facebook-%E7%B2%89%E7%B5%B2%E5%B0%88%E9%A0%81"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">建立 facebook 粉絲專頁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-facevook-application"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">建立 facevook application</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Serverless-%E5%B0%88%E6%A1%88"><span class="nav-number">1.2.</span> <span class="nav-text">建立 Serverless 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serverless-%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.3.</span> <span class="nav-text">Serverless 環境設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#npm-%E5%A5%97%E4%BB%B6%E5%AE%89%E8%A3%9D"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">npm 套件安裝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functoin-%E5%8F%83%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">Functoin 參考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-%E4%B8%8A%E6%9C%8D%E5%8B%99%E6%AA%A2%E6%9F%A5"><span class="nav-number">1.5.</span> <span class="nav-text">AWS 上服務檢查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-Gateway-%E8%A8%AD%E5%AE%9A%E7%A2%BA%E8%AA%8D"><span class="nav-number">1.5.1.</span> <span class="nav-text">API Gateway 設定確認</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda-%E7%A2%BA%E8%AA%8D"><span class="nav-number">1.5.2.</span> <span class="nav-text">Lambda 確認</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FB-%E9%80%A3%E7%B5%90-Webhook-%E6%B8%AC%E8%A9%A6-GET"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">FB 連結 Webhook 測試(GET)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Messenger-Bot-%E6%8E%A5%E6%94%B6%E8%A8%8A%E6%81%AF%E6%B8%AC%E8%A9%A6-POST"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">Messenger Bot 接收訊息測試(POST)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FB-Page-Webhook-Setting"><span class="nav-number">1.6.</span> <span class="nav-text">FB Page Webhook Setting</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refrence"><span class="nav-number">2.</span> <span class="nav-text">Refrence</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2016/10/07/serverless-facebook-messenger-bot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Build a Serverless Facebook Messenger Chatbot | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Build a Serverless Facebook Messenger Chatbot
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2016-10-07 13:49:37" itemprop="dateCreated datePublished" datetime="2016-10-07T13:49:37+08:00">2016-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/10/07/serverless-facebook-messenger-bot/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/07/serverless-facebook-messenger-bot/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#build-a-serverless-facebook-messenger-chatbot">Build a Serverless Facebook Messenger Chatbot</a><ul>
+<li><a href="#%E6%BA%96%E5%82%99%E5%B7%A5%E5%85%B7%E8%88%87%E6%9C%8D%E5%8B%99">準備工具與服務</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%9D-serverless-framework">安裝 Serverless Framework</a></li>
+<li><a href="#aws-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD---iam">AWS 前置作業 - IAM</a></li>
+<li><a href="#facebook-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD">Facebook 前置作業</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BB%BA%E7%AB%8B-serverless-%E5%B0%88%E6%A1%88">建立 Serverless 專案</a></li>
+<li><a href="#serverless-%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A">Serverless 環境設定</a></li>
+<li><a href="#functoin-%E5%8F%83%E8%80%83">Functoin 參考</a></li>
+<li><a href="#aws-%E4%B8%8A%E6%9C%8D%E5%8B%99%E6%AA%A2%E6%9F%A5">AWS 上服務檢查</a><ul>
+<li><a href="#api-gateway-%E8%A8%AD%E5%AE%9A%E7%A2%BA%E8%AA%8D">API Gateway 設定確認</a></li>
+<li><a href="#lambda-%E7%A2%BA%E8%AA%8D">Lambda 確認</a></li>
+</ul>
+</li>
+<li><a href="#fb-page-webhook-setting">FB Page Webhook Setting</a></li>
+</ul>
+</li>
+<li><a href="#refrence">Refrence</a></li>
+</ul>
+<!-- /MarkdownTOC -->
+
+
+<p><a name="build-a-serverless-facebook-messenger-chatbot"></a></p>
+<h1 id="Build-a-Serverless-Facebook-Messenger-Chatbot"><a href="#Build-a-Serverless-Facebook-Messenger-Chatbot" class="headerlink" title="Build a Serverless Facebook Messenger Chatbot"></a>Build a Serverless Facebook Messenger Chatbot</h1><p><a name="準備工具與服務"></a></p>
+<h2 id="準備工具與服務"><a href="#準備工具與服務" class="headerlink" title="準備工具與服務"></a>準備工具與服務</h2><ul>
+<li>Serverless Framework (I use v1.0-rc1)</li>
+<li>AWS Account</li>
+<li>Facebook Page</li>
+<li>Facebook Developer</li>
+</ul>
+<span id="more"></span>
+
+<p><a name="安裝-serverless-framework"></a></p>
+<h3 id="安裝-Serverless-Framework"><a href="#安裝-Serverless-Framework" class="headerlink" title="安裝 Serverless Framework"></a>安裝 Serverless Framework</h3><p>serverless 目前(2016/10/06)的版本是 v1.0 rc1，過去在網路上找到的教學文都是 v.0.5.許多，從 JSON 格式轉換成 YAML 格式，這部份搞了我很久，加上一些變數設定等，花了一兩天在摸索。</p>
+<p>Serverless Framework 安裝指令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g serverless</span><br></pre></td></tr></table></figure>
+<p>這裡說明一下 Serverless framework 大致上需要以及會使用到的 AWS 服務項目</p>
+<ul>
+<li>IAM : 權限管理，讓本機端寫好的東西可以部屬到 AWS 各項資源與服務上的權限</li>
+<li>CloudFormation : AWS 資源與各項服務配置的模版，目前 v1.0 版改用 YAML 格式</li>
+<li>S3 : 資料儲存空間，存放 coludformation 模板與發布的 function + libraries zip檔的地方</li>
+<li>Lambda : 在接收某些觸發條件後執行邏輯運算功能的服務，也就是用來執行聊天機器人的功能</li>
+<li>API Gateway : 用來管理後台 Server or Lambda 等的 API 接口服務，這裡是用來觸發 Lambda function 執行運算</li>
+<li>CloudWatch : 可以檢視 Lambda 上 Function 執行時所留下的 log，協助開發中 Debug 使用</li>
+</ul>
+<p><a name="aws-前置作業---iam"></a></p>
+<h3 id="AWS-前置作業-IAM"><a href="#AWS-前置作業-IAM" class="headerlink" title="AWS 前置作業 - IAM"></a>AWS 前置作業 - IAM</h3><p>如果已經有安裝 AWS 提供的 command line tool (<a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/cli/">aws-cli</a>)，可能會方便一點？沒有也沒關係，因為我也是到 aws console 介面上慢慢做的</p>
+<h4 id="建立-IAM-user-並給予權限-教學"><a href="#建立-IAM-user-並給予權限-教學" class="headerlink" title="建立 IAM user 並給予權限 (教學)"></a>建立 IAM user 並給予權限 (<a target="_blank" rel="noopener" href="https://github.com/serverless/serverless/blob/master/docs/02-providers/aws/01-setup.md#amazon-web-services">教學</a>)</h4><ol>
+<li>在 AWS Console 介面，在進入 IAM 介面</li>
+<li>建立使用者，命名 serverless-admin</li>
+<li>記下 Access Key Id 與 Secret Access Key，或把檔案也下載下來</li>
+<li>添加 AdministratorAccess 權限</li>
+</ol>
+<p><img src="/images/serverless/IAM-1.jpg" alt="IAM-1"><br><img src="/images/serverless/IAM-2.jpg" alt="IAM-1"></p>
+<h4 id="在本機設定-AWS-API-Key-amp-Secret"><a href="#在本機設定-AWS-API-Key-amp-Secret" class="headerlink" title="在本機設定 AWS API Key &amp; Secret"></a>在本機設定 AWS API Key &amp; Secret</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export AWS_ACCESS_KEY_ID=&lt;key&gt;</span><br><span class="line">export AWS_SECRET_ACCESS_KEY=&lt;secret&gt;</span><br></pre></td></tr></table></figure>
+<p>或者使用 aws-cli 來設定 aws config</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ aws configure</span><br><span class="line">AWS Access Key ID [None]: &lt;key&gt;</span><br><span class="line">AWS Secret Access Key [None]: &lt;secret&gt;</span><br><span class="line">Default region name [None]: ap-northeast-1</span><br><span class="line">Default output format [None]: ENTER</span><br></pre></td></tr></table></figure>
+
+<p><a name="facebook-前置作業"></a></p>
+<h3 id="Facebook-前置作業"><a href="#Facebook-前置作業" class="headerlink" title="Facebook 前置作業"></a>Facebook 前置作業</h3><h4 id="建立-facebook-粉絲專頁"><a href="#建立-facebook-粉絲專頁" class="headerlink" title="建立 facebook 粉絲專頁"></a>建立 facebook 粉絲專頁</h4><p>為了測試聊天機器人，在臉書建立一個粉絲專業吧！<br>所以這邊就不在針對這部份寫教學了</p>
+<p><a name="建立-facevook-application"></a></p>
+<h4 id="建立-facevook-application"><a href="#建立-facevook-application" class="headerlink" title="建立 facevook application"></a>建立 facevook application</h4><ol>
+<li>進入 Facebook Developer 建立一個新的 APP</li>
+<li>替這個 APP 加入 Messenger 這項產品</li>
+</ol>
+<p><img src="/images/serverless/fb-page1.png" alt="Create FB Page"><img src="/images/serverless/fb-page2.png" alt="Add Messenger"></p>
+<p><a name="建立-serverless-專案"></a></p>
+<h2 id="建立-Serverless-專案"><a href="#建立-Serverless-專案" class="headerlink" title="建立 Serverless 專案"></a>建立 Serverless 專案</h2><p>因為使用到 Lambda，所以有 Node.js, Python, Java 等樣板可以選擇，這裡使用 Node.js 來做示範(小弟不才，雖然 nodejs 也不熟，但另外兩種語言更是悲劇)</p>
+<p>建立專案指令：(使用 Node.js 樣板)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 採用 nodejs 基本模板, 並將專案建立在 sls-fb-msg-bot 目錄下</span><br><span class="line">serverless create --template aws-nodejs --path sls-fb-msg-bot</span><br></pre></td></tr></table></figure>
+
+<p>完成這建立專案指令後，應該會建立好指定的目錄名稱，並且在裡面產生三個檔案，結構如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sls-fb-msg-bot</span><br><span class="line">├── event.json</span><br><span class="line">├── handler.js</span><br><span class="line">└── serverless.yml</span><br></pre></td></tr></table></figure>
+
+<p><a name="serverless-環境設定"></a></p>
+<h2 id="Serverless-環境設定"><a href="#Serverless-環境設定" class="headerlink" title="Serverless 環境設定"></a>Serverless 環境設定</h2><p>可以參考我的範例 (<a target="_blank" rel="noopener" href="https://github.com/SoarLin/serverless-fb-messenger-bot">github</a>)，這裡需要安裝一些必要的套件</p>
+<h4 id="npm-套件安裝"><a href="#npm-套件安裝" class="headerlink" title="npm 套件安裝"></a>npm 套件安裝</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm init</span><br><span class="line"># 經過一連串的 enter，產生 package.json 後，繼續安裝套件</span><br><span class="line">npm install --save lodash request serverless-plugin-stage-variables</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而 serverless 的環境設定 yml 檔，參考如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service: sls-fb-msg-bot</span><br><span class="line"></span><br><span class="line">provider:</span><br><span class="line">  name: aws</span><br><span class="line">  runtime: nodejs4.3</span><br><span class="line"></span><br><span class="line">  # You can change your stage and aws region</span><br><span class="line">  stage: dev</span><br><span class="line">  region: ap-northeast-1</span><br><span class="line"></span><br><span class="line">functions:</span><br><span class="line">  webhook:</span><br><span class="line">    handler: handler.webhook</span><br><span class="line">    events:</span><br><span class="line">      - http:</span><br><span class="line">          path: webhook</span><br><span class="line">          method: GET</span><br><span class="line">      - http:</span><br><span class="line">          path: webhook</span><br><span class="line">          method: POST</span><br><span class="line">          response:</span><br><span class="line">            template: &#x27;&#123; &quot;body&quot;: &quot;$input.json(&#x27;&#x27;$&#x27;&#x27;)&quot; &#125;&#x27;</span><br><span class="line"></span><br><span class="line">custom:</span><br><span class="line">  stageVariables:</span><br><span class="line"></span><br><span class="line">    # Remeber to setting your variables</span><br><span class="line">    pageAccessToken: &#x27;FB_Page_Access_Token&#x27;</span><br><span class="line">    validationToken: &#x27;Your_Validation_Token&#x27;</span><br><span class="line"></span><br><span class="line">plugins:</span><br><span class="line">  - serverless-plugin-stage-variables</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意1:</strong> stage 與 region 請改成自己需要的內容，這邊設定是發佈到日本東京的機房</p>
+<p><strong>注意2:</strong> FB_Page_Access_Token 請開啟 fb developer app，在 Messenger 的 Setting 中的 「Token Generation」內選好粉絲專頁來產生</p>
+<p><img src="/images/serverless/fb-page-access-token.png" alt="Page Access Token"></p>
+<p><strong>注意3:</strong> Your_Validation_Token 是 FB 要與 webhook API 溝通時的驗證碼，設定一個自己喜歡的密碼，這裡會與 FB_Page_Access_Token 都寫入 API Gateway Stages 內的 Stage Variables，之後再透過 Lambda 撈出來</p>
+<p><img src="/images/serverless/FB-APIGateway.jpg" alt="Verify Token"></p>
+<p><a name="functoin-參考"></a></p>
+<h2 id="Functoin-參考"><a href="#Functoin-參考" class="headerlink" title="Functoin 參考"></a>Functoin 參考</h2><p>serverless.yml 的設定都搞定後，剩下的就是 handle.js 這個用來執行邏輯運算的功能程式了，我得先承認我是到處參考東拼西湊出來的程式碼，所以真的就參考就好。</p>
+<p>想了解更詳細 <a target="_blank" rel="noopener" href="https://developers.facebook.com/docs/messenger-platform">Messenger API</a>，麻煩還是到 Facebook 所提供的<a target="_blank" rel="noopener" href="https://developers.facebook.com/docs/messenger-platform">文件</a>去研究吧！這裡僅節錄部分程式碼並在稍微精簡一些(有可能無法實行)，正確完成內容還是請到我的 <a target="_blank" rel="noopener" href="https://github.com/SoarLin/serverless-fb-messenger-bot">github</a> 上去參考</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;request&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendTextMessage</span>(<span class="params">recipientId, messageText</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">recipient</span>: &#123; <span class="attr">id</span>: recipientId &#125;,</span><br><span class="line">        <span class="attr">message</span>: &#123; <span class="attr">text</span>: messageText &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">object</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(object, <span class="literal">null</span>, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports.webhook = <span class="function">(<span class="params">event, context, callback</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Event: &#x27;</span>, display(event));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// FB Page access token</span></span><br><span class="line">    <span class="keyword">const</span> PAGE_ACCESS_TOKEN = event.stageVariables.pageAccessToken;</span><br><span class="line">    <span class="comment">// FB webhook validation token</span></span><br><span class="line">    <span class="keyword">const</span> VALIDATION_TOKEN = event.stageVariables.validationToken;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!VALIDATION_TOKEN) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">&quot;Missing validation token&quot;</span>);</span><br><span class="line">        context.fail(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;Missing validation token&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">callSendAPI</span>(<span class="params">messageData</span>) </span>&#123;</span><br><span class="line">        request(&#123;</span><br><span class="line">            <span class="attr">uri</span>: <span class="string">&#x27;https://graph.facebook.com/v2.6/me/messages&#x27;</span>,</span><br><span class="line">            <span class="attr">qs</span>: &#123; <span class="attr">access_token</span>: PAGE_ACCESS_TOKEN &#125;,</span><br><span class="line">            <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">            <span class="attr">json</span>: messageData</span><br><span class="line">        &#125;, <span class="function">(<span class="params">error, response, body</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!error &amp;&amp; response.statusCode == <span class="number">200</span>) &#123;</span><br><span class="line">                context.succeed(<span class="string">&quot;Successfully&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                context.fail(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;Failed Send API&#x27;</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (event.method === <span class="string">&quot;GET&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> query = event.query;</span><br><span class="line">        <span class="keyword">if</span> (query[<span class="string">&#x27;hub.mode&#x27;</span>] === <span class="string">&#x27;subscribe&#x27;</span> &amp;&amp;</span><br><span class="line">            query[<span class="string">&#x27;hub.verify_token&#x27;</span>] === VALIDATION_TOKEN) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&quot;Validating webhook&quot;</span>);</span><br><span class="line">            context.succeed(<span class="built_in">parseInt</span>(query[<span class="string">&#x27;hub.challenge&#x27;</span>]));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            context.fail(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;[403] Failed validation.&#x27;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (event.method === <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> data = event.body;</span><br><span class="line">        <span class="keyword">if</span> (data.object == <span class="string">&#x27;page&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> messagingList = data.entry[<span class="number">0</span>].messaging;</span><br><span class="line">            <span class="keyword">var</span> messageData;</span><br><span class="line"></span><br><span class="line">            messagingList.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">messagingEvent</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">var</span> senderId = messagingEvent.sender.id;</span><br><span class="line">                <span class="keyword">if</span> (messagingEvent.message) &#123;</span><br><span class="line">                    <span class="comment">// Received user message</span></span><br><span class="line">                    messageData = sendTextMessage(senderId, <span class="string">&quot;Hello, I am messenger bot&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    messageData = sendTextMessage(senderId, <span class="string">&quot;Webhook received other messagingEvent&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                callSendAPI(messageData);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        context.fail(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;Unrecognized method &quot;&#x27;</span> + event.method + <span class="string">&#x27;&quot;&#x27;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>到了這邊，大致上 serverless 的設置都完成了，總算可以發佈到 AWS 上啦！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">serverless deploy</span><br></pre></td></tr></table></figure>
+
+<p><a name="aws-上服務檢查"></a></p>
+<h2 id="AWS-上服務檢查"><a href="#AWS-上服務檢查" class="headerlink" title="AWS 上服務檢查"></a>AWS 上服務檢查</h2><p><a name="api-gateway-設定確認"></a></p>
+<h3 id="API-Gateway-設定確認"><a href="#API-Gateway-設定確認" class="headerlink" title="API Gateway 設定確認"></a>API Gateway 設定確認</h3><p>首先檢查一下設定檔內寫的 State Variables 有沒有正確的被設定好</p>
+<p><img src="/images/serverless/API-Gateway1.png" alt="API Gateway-1"></p>
+<p>接著檢查 Get Method 中的 request template，這邊原本沒有設定，但應該會有圖中的預設樣板 code</p>
+<p><img src="/images/serverless/API-Gateway2.png" alt="API Gateway-2"></p>
+<p>然後再檢查 Post Method 中的 response template 是否有設定檔內寫的內容，如下圖</p>
+<p><img src="/images/serverless/API-Gateway3.png" alt="API Gateway-3"></p>
+<p><a name="lambda-確認"></a></p>
+<h3 id="Lambda-確認"><a href="#Lambda-確認" class="headerlink" title="Lambda 確認"></a>Lambda 確認</h3><p>應該可以順利產生一組 function 命名格式為 <code>&lt;service_name&gt;-&lt;stage&gt;-&lt;function_name&gt;</code>，這裡的例子是 sls-fb-msg-bot-dev-webhook</p>
+<p><img src="/images/serverless/lambda.png" alt="Lambda Function"></p>
+<h4 id="FB-連結-Webhook-測試-GET"><a href="#FB-連結-Webhook-測試-GET" class="headerlink" title="FB 連結 Webhook 測試(GET)"></a>FB 連結 Webhook 測試(GET)</h4><p>可以參考下面範例:</p>
+<ul>
+<li><strong>hub.verify_token</strong> 與 <strong>validationToken</strong> 記得設成一樣</li>
+<li><strong>hub.challenge</strong> 是由 FB 驗證時傳過來的一組數值，自行測試時隨便打都可以</li>
+<li><strong>pageAccessToken</strong> 記得填入 FB 產生的粉絲專頁存取權杖</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;body&quot;</span>: &#123;&#125;,</span><br><span class="line">  <span class="attr">&quot;method&quot;</span>: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;stage&quot;</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;hub.mode&quot;</span>: <span class="string">&quot;subscribe&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;hub.challenge&quot;</span>: <span class="string">&quot;29606336&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;hub.verify_token&quot;</span>: <span class="string">&quot;Your_Validation_Token&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;stageVariables&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;validationToken&quot;</span>: <span class="string">&quot;Your_Validation_Token&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;pageAccessToken&quot;</span>: <span class="string">&quot;FB_Page_Access_Token&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Messenger-Bot-接收訊息測試-POST"><a href="#Messenger-Bot-接收訊息測試-POST" class="headerlink" title="Messenger Bot 接收訊息測試(POST)"></a>Messenger Bot 接收訊息測試(POST)</h4><p>一樣參考下方的範例：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;body&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;object&quot;</span>: <span class="string">&quot;page&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;entry&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;messaging&quot;</span>: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">&quot;sender&quot;</span>: &#123;</span><br><span class="line">                            <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;&lt;Your_Facebook_Id&gt;&quot;</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="attr">&quot;message&quot;</span>: &#123;</span><br><span class="line">                            <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;test&quot;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;method&quot;</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;stage&quot;</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;stageVariables&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;validationToken&quot;</span>: <span class="string">&quot;FB_Page_Access_Token&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;pageAccessToken&quot;</span>: <span class="string">&quot;Your_Validation_Token&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Your_Facebook_Id</strong> : 這個比較麻煩，可能得自己去 FB Developer 提供的 <a target="_blank" rel="noopener" href="https://developers.facebook.com/tools/explorer/">Graph API Explorer</a> 上面查詢<ul>
+<li>先點下 Get Token, 然後直接確定</li>
+<li>接著預設應該會取出用 user name 與 id，就可以得到自己的 id 了，參考下圖</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/serverless/GraphAPIExplorer1.jpg" alt="Graph API 1"><img src="/images/serverless/GraphAPIExplorer2.png" alt="Graph API 2"></p>
+<p><a name="fb-page-webhook-setting"></a></p>
+<h2 id="FB-Page-Webhook-Setting"><a href="#FB-Page-Webhook-Setting" class="headerlink" title="FB Page Webhook Setting"></a>FB Page Webhook Setting</h2><p>總算快大功告成了，還記得之前一直有提到的 Your_Validation_Token 吧！在設定 webhook 時就會派上用場啦！</p>
+<ul>
+<li>進入 facebook developer app 頁面</li>
+<li>切換到 Messenger 產品分頁</li>
+<li>點選 Setup Webhooks</li>
+<li>接著填入 API Gateway endpoints 的 GET 網址與要跟程式驗證的內容<ul>
+<li>endpoints 網址在發佈時，會顯示在 terminal 上</li>
+<li>或是使用<code>serverless info</code>來檢視資訊</li>
+</ul>
+</li>
+<li>驗證通過後，記得在下方訂閱要執行 bot 的粉絲專頁</li>
+</ul>
+<p><img src="/images/serverless/fb-webhook.png" alt="Facebook Webhooks Setting"><img src="/images/serverless/subscribe_page.png" alt="Subscribe Page"></p>
+<p>如果順利驗證通過，就可以開始跟機器人對話啦！</p>
+<p><img src="/images/serverless/chat-sample.jpg" alt="Messenger Chat"></p>
+<p><a name="refrence"></a></p>
+<h1 id="Refrence"><a href="#Refrence" class="headerlink" title="Refrence"></a>Refrence</h1><p><a target="_blank" rel="noopener" href="https://serverless.com/">Serverless Framerowk</a><br><a target="_blank" rel="noopener" href="https://github.com/serverless/serverless">Serverless Github</a><br><a target="_blank" rel="noopener" href="http://denny.qollie.com/2016/05/29/sls-fb-bot/">實作 Serverless 的 facebook messenger bot</a><br><a target="_blank" rel="noopener" href="http://justserverless.com/blog/building-a-serverless-facebook-messenger-chatbot/">Building a Serverless Facebook messenger chatbot</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/lambda/" rel="tag"><i class="fa fa-tag"></i> lambda</a>
+              <a href="/tags/serverless/" rel="tag"><i class="fa fa-tag"></i> serverless</a>
+              <a href="/tags/apigateway/" rel="tag"><i class="fa fa-tag"></i> apigateway</a>
+              <a href="/tags/webhook/" rel="tag"><i class="fa fa-tag"></i> webhook</a>
+              <a href="/tags/facebook/" rel="tag"><i class="fa fa-tag"></i> facebook</a>
+              <a href="/tags/messenger/" rel="tag"><i class="fa fa-tag"></i> messenger</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/09/16/SPRINT%E8%A1%9D%E5%88%BA%E8%A8%88%E7%95%AB-Part3/" rel="prev" title="SPRINT衝刺計畫 - Part3">
+                  <i class="fa fa-chevron-left"></i> SPRINT衝刺計畫 - Part3
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/11/12/elasticsearch-setting/" rel="next" title="Elasticsearch Installation and Setting">
+                  Elasticsearch Installation and Setting <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

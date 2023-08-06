@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Linux 相關資料 使用者磁碟限額  - 檢查使用者磁碟限額   - 啟動 &#x2F; 關閉磁碟限額   - 編輯 使用者&#x2F;群組 磁碟限額規則   開機自動執行 script 開機自動掛載遠端共享資料夾 手動掛載指令步驟 : 改為開機後自動掛載步驟：   使用crontab幫工作排程 建立群組共用目錄 AWS EC2(Ubuntu)的使用者改用密碼登入        Linux 相關資料 使用者磁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux相關筆記">
+<meta property="og:url" content="https://soarlin.github.io/2016/08/28/Linux%E7%9B%B8%E9%97%9C%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="Linux 相關資料 使用者磁碟限額  - 檢查使用者磁碟限額   - 啟動 &#x2F; 關閉磁碟限額   - 編輯 使用者&#x2F;群組 磁碟限額規則   開機自動執行 script 開機自動掛載遠端共享資料夾 手動掛載指令步驟 : 改為開機後自動掛載步驟：   使用crontab幫工作排程 建立群組共用目錄 AWS EC2(Ubuntu)的使用者改用密碼登入        Linux 相關資料 使用者磁">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://monovm.com/images/unzip-centos.png">
+<meta property="article:published_time" content="2016-08-28T08:17:52.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.423Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="crontab">
+<meta property="article:tag" content="mount">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://monovm.com/images/unzip-centos.png">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2016/08/28/Linux%E7%9B%B8%E9%97%9C%E7%AD%86%E8%A8%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2016/08/28/Linux%E7%9B%B8%E9%97%9C%E7%AD%86%E8%A8%98/","path":"2016/08/28/Linux相關筆記/","title":"Linux相關筆記"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux相關筆記 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9B%B8%E9%97%9C%E8%B3%87%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">Linux 相關資料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E7%A3%81%E7%A2%9F%E9%99%90%E9%A1%8D"><span class="nav-number">1.1.</span> <span class="nav-text">使用者磁碟限額</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AA%A2%E6%9F%A5%E4%BD%BF%E7%94%A8%E8%80%85%E7%A3%81%E7%A2%9F%E9%99%90%E9%A1%8D"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">檢查使用者磁碟限額</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-%E9%97%9C%E9%96%89%E7%A3%81%E7%A2%9F%E9%99%90%E9%A1%8D"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">啟動 &#x2F; 關閉磁碟限額</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF-%E4%BD%BF%E7%94%A8%E8%80%85-%E7%BE%A4%E7%B5%84-%E7%A3%81%E7%A2%9F%E9%99%90%E9%A1%8D%E8%A6%8F%E5%89%87"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">編輯 使用者&#x2F;群組 磁碟限額規則</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E6%A9%9F%E8%87%AA%E5%8B%95%E5%9F%B7%E8%A1%8C-script"><span class="nav-number">1.2.</span> <span class="nav-text">開機自動執行 script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E6%A9%9F%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89%E9%81%A0%E7%AB%AF%E5%85%B1%E4%BA%AB%E8%B3%87%E6%96%99%E5%A4%BE"><span class="nav-number">1.3.</span> <span class="nav-text">開機自動掛載遠端共享資料夾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E6%8E%9B%E8%BC%89%E6%8C%87%E4%BB%A4%E6%AD%A5%E9%A9%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">手動掛載指令步驟 :</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E7%82%BA%E9%96%8B%E6%A9%9F%E5%BE%8C%E8%87%AA%E5%8B%95%E6%8E%9B%E8%BC%89%E6%AD%A5%E9%A9%9F%EF%BC%9A"><span class="nav-number">1.3.2.</span> <span class="nav-text">改為開機後自動掛載步驟：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8crontab%E5%B9%AB%E5%B7%A5%E4%BD%9C%E6%8E%92%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">使用crontab幫工作排程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%BE%A4%E7%B5%84%E5%85%B1%E7%94%A8%E7%9B%AE%E9%8C%84"><span class="nav-number">1.5.</span> <span class="nav-text">建立群組共用目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-EC2-Ubuntu-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85%E6%94%B9%E7%94%A8%E5%AF%86%E7%A2%BC%E7%99%BB%E5%85%A5"><span class="nav-number">1.6.</span> <span class="nav-text">AWS EC2(Ubuntu)的使用者改用密碼登入</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    
+    <div class="post-gallery-image">
+      <img src="https://monovm.com/images/unzip-centos.png" itemprop="contentUrl">
+    </div>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2016/08/28/Linux%E7%9B%B8%E9%97%9C%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux相關筆記 | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux相關筆記
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2016-08-28 16:17:52" itemprop="dateCreated datePublished" datetime="2016-08-28T16:17:52+08:00">2016-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/08/28/Linux%E7%9B%B8%E9%97%9C%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/Linux相關筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li>Linux 相關資料<ul>
+<li>使用者磁碟限額<pre><code>  - 檢查使用者磁碟限額
+  - 啟動 / 關閉磁碟限額
+  - 編輯 使用者/群組 磁碟限額規則
+</code></pre>
+</li>
+<li>開機自動執行 script</li>
+<li>開機自動掛載遠端共享資料夾<ul>
+<li>手動掛載指令步驟 :</li>
+<li>改為開機後自動掛載步驟：</li>
+</ul>
+</li>
+<li>使用crontab幫工作排程</li>
+<li>建立群組共用目錄</li>
+<li>AWS EC2(Ubuntu)的使用者改用密碼登入</li>
+</ul>
+</li>
+</ul>
+<!-- /MarkdownTOC -->
+
+
+<p><a name="linux-相關資料"></a></p>
+<h1 id="Linux-相關資料"><a href="#Linux-相關資料" class="headerlink" title="Linux 相關資料"></a>Linux 相關資料</h1><p><a name="使用者磁碟限額"></a></p>
+<h2 id="使用者磁碟限額"><a href="#使用者磁碟限額" class="headerlink" title="使用者磁碟限額"></a>使用者磁碟限額</h2><ul>
+<li>參考資料：<ol>
+<li><a target="_blank" rel="noopener" href="https://note.drx.tw/2008/03/disk-quota.html">quota - 磁碟配額</a></li>
+<li><a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0420quota/0420quota-fc4.php">Linux 磁碟配額 (Quota)</a></li>
+</ol>
+</li>
+</ul>
+<h4 id="檢查使用者磁碟限額"><a href="#檢查使用者磁碟限額" class="headerlink" title="檢查使用者磁碟限額"></a>檢查使用者磁碟限額</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo quota &lt;UserName&gt;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="啟動-關閉磁碟限額"><a href="#啟動-關閉磁碟限額" class="headerlink" title="啟動 / 關閉磁碟限額"></a>啟動 / 關閉磁碟限額</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo quotaon -av  啟動</span><br><span class="line">sudo quotaoff -a    全部關閉</span><br><span class="line">sudo quotaoff -u &lt;UserName&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="編輯-使用者-群組-磁碟限額規則"><a href="#編輯-使用者-群組-磁碟限額規則" class="headerlink" title="編輯 使用者/群組 磁碟限額規則"></a>編輯 使用者/群組 磁碟限額規則</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jonny@gutsy:~$ sudo edquota -u UserName [Enter]</span><br><span class="line">jonny@gutsy:~$ sudo edquota -g GroupName [Enter]</span><br><span class="line">Disk quotas <span class="keyword">for</span> user jonny (uid 1004):</span><br><span class="line">Filesystem  blocks  soft  hard inodes soft hard</span><br><span class="line">/dev/sda7   24     100000 102400   7  0  0</span><br><span class="line"></span><br><span class="line">// 此範例為限制 100 MB，如想限制 1 GB 請改用 1000000 及 1024000。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>各欄介紹<ul>
+<li>第１欄 (Filesystem)：啟用 quota 的檔案系統名增。</li>
+<li>第２欄 (blocks)：使用者已使用的區塊數量。</li>
+<li>第３欄 (soft)：非強制性的磁碟空間限制，單位為 KB。</li>
+<li>第４欄 (hard)：強制性的磁碟空間限制，單位為 KB。</li>
+<li>第５欄 (inodes)：使用者已使用的檔案數目。</li>
+<li>第６欄 (soft)：非強制性的 inode 限制。</li>
+<li>第７欄 (hard)：強制性的 inode 限制。</li>
+</ul>
+</li>
+</ul>
+<p><a name="開機自動執行-script"></a></p>
+<h2 id="開機自動執行-script"><a href="#開機自動執行-script" class="headerlink" title="開機自動執行 script"></a>開機自動執行 script</h2><p>在 Debian 及 Ubuntu 開機後, 如果想自動執行一些 shell script 或指令, 可以直接編輯 /etc/rc.local 檔案。</p>
+<p>以下是 /etc/rc.local 預設內容:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/sh -e</span><br><span class="line">#</span><br><span class="line"># rc.local - executed at the end of each multiuser runlevel</span><br><span class="line">#</span><br><span class="line"># Make sure that the script will &quot;exit 0&quot; on success or any other</span><br><span class="line"># value on error.</span><br></pre></td></tr></table></figure>
+
+<p>要加入自動執行指令或 shell script 十分簡單, 只要直接加上要執行的指令即可，例如我要讓 solr-5.3.1 每次重開機後也被啟動，就加入<code>/path/to/solr-5.3.1/bin/solr start</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/sh -e</span><br><span class="line">#</span><br><span class="line"># rc.local - executed at the end of each multiuser runlevel</span><br><span class="line">#</span><br><span class="line"># Make sure that the script will &quot;exit 0&quot; on success or any other</span><br><span class="line"># value on error.</span><br><span class="line">/home/ubuntu/solr-5.3.1/bin/solr start</span><br></pre></td></tr></table></figure>
+
+<p><a name="開機自動掛載遠端共享資料夾"></a></p>
+<h2 id="開機自動掛載遠端共享資料夾"><a href="#開機自動掛載遠端共享資料夾" class="headerlink" title="開機自動掛載遠端共享資料夾"></a>開機自動掛載遠端共享資料夾</h2><p>由於 Local 的資料備份是透過 mount nas 所分享的資料夾來備份資料<br>所以每次重開機或 nas 出問題，mount 就會斷掉，必須手動在重新 mount 上</p>
+<p><a name="手動掛載指令步驟-"></a></p>
+<h3 id="手動掛載指令步驟"><a href="#手動掛載指令步驟" class="headerlink" title="手動掛載指令步驟 :"></a>手動掛載指令步驟 :</h3><ol>
+<li>請使用root來執行</li>
+<li>mount指令(20150826更新) : <code>mount -t cifs -o username=oooo,password=oooo //192.168.68.101/homes/ubuntu /mnt/nas</code></li>
+<li>檢查指令 : <code>df -h</code> 或 <code>df -Th /mnt/nas</code></li>
+<li>unmount指令 : <code>umount /mnt/nas</code></li>
+</ol>
+<p><a name="改為開機後自動掛載步驟："></a></p>
+<h3 id="改為開機後自動掛載步驟："><a href="#改為開機後自動掛載步驟：" class="headerlink" title="改為開機後自動掛載步驟："></a>改為開機後自動掛載步驟：</h3><p><a target="_blank" rel="noopener" href="http://ubuntuforums.org/showthread.php?t=1806455">參考資料</a></p>
+<ul>
+<li>安裝 smbfs</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install smbfs</span><br></pre></td></tr></table></figure>
+<ul>
+<li>建立本機對應目錄</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir /mnt/nas</span><br></pre></td></tr></table></figure>
+<ul>
+<li>加入遠端分享資料夾的帳號密碼</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /root/.cifspwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># .cifspwd 檔案內容</span></span><br><span class="line">username=oooo</span><br><span class="line">password=oooo</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改 fstab (/etc/fstab) 來增加重開機後自動掛載的資料</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//192.168.68.101/homes/ubuntu /mnt/nas cifs user,uid=1000,gid=users,credentials=/root/.cifspwd 0 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 當中的 uid 為 /mnt/nas 建立的初始帳戶 uid (soar:1000)</span></span><br><span class="line"><span class="comment"># 使用 id -u username 去檢查 uid</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>檢查是否成功<ul>
+<li>如果已經掛載，先解除掛載 <code>umount /mnt/nas</code></li>
+<li>然後在透過下列語法模擬開機後執行的 mount 動作 <code>sudo mount -a</code></li>
+<li><code>df -h</code> 來檢查是否 mount 成功</li>
+</ul>
+</li>
+</ul>
+<p><a name="使用crontab幫工作排程"></a></p>
+<h2 id="使用crontab幫工作排程"><a href="#使用crontab幫工作排程" class="headerlink" title="使用crontab幫工作排程"></a>使用crontab幫工作排程</h2><ul>
+<li><code>crontab -l</code> : 列出目前使用者的排程工作</li>
+<li><code>crontab -e</code> : 編輯目前使用者的排程工作</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">10 3 * * 6 /bin/bash -c <span class="string">&#x27;mysql_backup/backup.sh &gt;&gt; /mnt/nas/mysql_backup/backup.log 2&gt;&amp;1&#x27;</span></span><br><span class="line">30 3 * * 6 /bin/bash -c <span class="string">&#x27;weekly/backup.sh &gt;&gt; /mnt/nas/weekly/backup.log 2&gt;&amp;1&#x27;</span></span><br><span class="line">0 4 * * 6 /bin/sh -c <span class="string">&#x27;system_backup/backup.sh &gt;&gt; /mnt/nas/system_backup/backup.log 2&gt;&amp;1’</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/OGytWih.gif" alt="crontab時間含義"></p>
+<p><a name="建立群組共用目錄"></a></p>
+<h2 id="建立群組共用目錄"><a href="#建立群組共用目錄" class="headerlink" title="建立群組共用目錄"></a>建立群組共用目錄</h2><p><a target="_blank" rel="noopener" href="https://www.babyface2.com/NetAdmin/41200906basic/">參考資料</a> (20190813已失效)</p>
+<p><strong>請先切換成root帳號</strong></p>
+<ul>
+<li>建立使用者帳號<br>I<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -s /bin/bash -G sudo -m -d /home/username username -p 密碼</span><br></pre></td></tr></table></figure></li>
+<li>建立群組帳號，GID使用50000</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">groupadd -g 50000 &#123;group-name&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>將使用者帳號加入群組</p>
+<ul>
+<li>使用指令「vigr」(vi /etc/group的意思)，接著大寫G到最下面</li>
+<li>會看到剛剛建立的群組名稱與GID</li>
+</ul>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;group-name&#125;:x:50000:</span><br></pre></td></tr></table></figure></li>
+<li><p>在這行後面加上使用者帳號，多數使用者以逗號隔開</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;group-name&#125;:x:50000:user1,user2,user3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>建立目錄來共享</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir /home/&#123;group-name&#125;/shard-folder</span><br></pre></td></tr></table></figure>
+<ul>
+<li>變更目錄權限</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hgrp &#123;group-name&#125;  /home/&#123;group-name&#125;/shard-folder</span><br></pre></td></tr></table></figure>
+<ul>
+<li>變更目錄權限(其中的x表示其他賬戶的存取權限，4:可讀，5:可讀＋執行，7:可讀寫＋執行)</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chmod 277x /home/&#123;group-name&#125;/shard-folder</span><br></pre></td></tr></table></figure>
+
+<p><a name="aws-ec2ubuntu的使用者改用密碼登入"></a></p>
+<h2 id="AWS-EC2-Ubuntu-的使用者改用密碼登入"><a href="#AWS-EC2-Ubuntu-的使用者改用密碼登入" class="headerlink" title="AWS EC2(Ubuntu)的使用者改用密碼登入"></a>AWS EC2(Ubuntu)的使用者改用密碼登入</h2><p>先使用正常的方式登入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -i xxxx.pem ubuntu@ip</span><br></pre></td></tr></table></figure>
+
+<p>修改 sshd_config 檔，將PasswordAuthentication 改成 yes 後存檔離開</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line">sudo service ssh restart (ssh服務重啟)</span><br></pre></td></tr></table></figure>
+
+<p>重新改用使用者帳號登入，就需要打密碼了，<strong>前提是這個賬戶有設定密碼</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/crontab/" rel="tag"><i class="fa fa-tag"></i> crontab</a>
+              <a href="/tags/mount/" rel="tag"><i class="fa fa-tag"></i> mount</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/08/27/Laravel%E7%AD%86%E8%A8%98/" rel="prev" title="Laravel筆記">
+                  <i class="fa fa-chevron-left"></i> Laravel筆記
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/08/28/Sass%E7%AD%86%E8%A8%98/" rel="next" title="Sass筆記">
+                  Sass筆記 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="PHP Versions Dependency Management Recommended Packages   HTTPS and Browser Security Security Headers Subresource Integrity Document Relationships   Developing Secure PHP Software Database Interact">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018建立安全PHP軟體指南">
+<meta property="og:url" content="https://soarlin.github.io/2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="PHP Versions Dependency Management Recommended Packages   HTTPS and Browser Security Security Headers Subresource Integrity Document Relationships   Developing Secure PHP Software Database Interact">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-12-18T15:32:17.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.424Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="composer">
+<meta property="article:tag" content="security">
+<meta property="article:tag" content="https">
+<meta property="article:tag" content="injection">
+<meta property="article:tag" content="XSS">
+<meta property="article:tag" content="CSRF">
+<meta property="article:tag" content="password">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/","path":"2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/","title":"2018建立安全PHP軟體指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2018建立安全PHP軟體指南 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP-Versions"><span class="nav-number">1.</span> <span class="nav-text">PHP Versions</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dependency-Management"><span class="nav-number">2.</span> <span class="nav-text">Dependency Management</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Recommended-Packages"><span class="nav-number">2.1.</span> <span class="nav-text">Recommended Packages</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS-and-Browser-Security"><span class="nav-number">3.</span> <span class="nav-text">HTTPS and Browser Security</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Security-Headers"><span class="nav-number">3.1.</span> <span class="nav-text">Security Headers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subresource-Integrity"><span class="nav-number">3.2.</span> <span class="nav-text">Subresource Integrity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Document-Relationships"><span class="nav-number">3.3.</span> <span class="nav-text">Document Relationships</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Developing-Secure-PHP-Software"><span class="nav-number">4.</span> <span class="nav-text">Developing Secure PHP Software</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Database-Interaction"><span class="nav-number">4.1.</span> <span class="nav-text">Database Interaction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-Uploads"><span class="nav-number">4.2.</span> <span class="nav-text">File Uploads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cross-Site-Scripting-XSS"><span class="nav-number">4.3.</span> <span class="nav-text">Cross-Site Scripting (XSS)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cross-Site-Request-Forgery-CSRF"><span class="nav-number">4.4.</span> <span class="nav-text">Cross-Site Request Forgery (CSRF)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML-Attacks-XXE-XPath-Injection"><span class="nav-number">4.5.</span> <span class="nav-text">XML Attacks (XXE, XPath Injection)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deserialization-and-PHP-Object-Injection"><span class="nav-number">4.6.</span> <span class="nav-text">Deserialization and PHP Object Injection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Password-Hashing"><span class="nav-number">4.7.</span> <span class="nav-text">Password Hashing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#General-Purpose-Cryptography"><span class="nav-number">4.8.</span> <span class="nav-text">General-Purpose Cryptography</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Specialized-Use-Cases"><span class="nav-number">5.</span> <span class="nav-text">Specialized Use-Cases</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Searchable-Encryption"><span class="nav-number">5.1.</span> <span class="nav-text">Searchable Encryption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-based-Authentication-without-Side-Channels"><span class="nav-number">5.2.</span> <span class="nav-text">Token-based Authentication without Side-Channels</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Developing-Secure-APIs"><span class="nav-number">5.3.</span> <span class="nav-text">Developing Secure APIs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Security-Event-Logging-with-Chronicle"><span class="nav-number">5.4.</span> <span class="nav-text">Security Event Logging with Chronicle</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E5%BE%8C%E8%A8%98"><span class="nav-number">6.</span> <span class="nav-text">作者後記</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Resources"><span class="nav-number">7.</span> <span class="nav-text">Resources</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2018建立安全PHP軟體指南 | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2018建立安全PHP軟體指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-12-18 23:32:17" itemprop="dateCreated datePublished" datetime="2017-12-18T23:32:17+08:00">2017-12-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/18/The-2018-Guide-to-Building-Secure-PHP-Software/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#php-versions">PHP Versions</a></li>
+<li><a href="#dependency-management">Dependency Management</a><ul>
+<li><a href="#recommended-packages">Recommended Packages</a></li>
+</ul>
+</li>
+<li><a href="#https-and-browser-security">HTTPS and Browser Security</a><ul>
+<li><a href="#security-headers">Security Headers</a></li>
+<li><a href="#subresource-integrity">Subresource Integrity</a></li>
+<li><a href="#document-relationships">Document Relationships</a></li>
+</ul>
+</li>
+<li><a href="#developing-secure-php-software">Developing Secure PHP Software</a><ul>
+<li><a href="#database-interaction">Database Interaction</a></li>
+<li><a href="#file-uploads">File Uploads</a></li>
+<li><a href="#cross-site-scripting-xss">Cross-Site Scripting (XSS)</a></li>
+<li><a href="#cross-site-request-forgery-csrf">Cross-Site Request Forgery (CSRF)</a></li>
+<li><a href="#xml-attacks-xxe-xpath-injection">XML Attacks (XXE, XPath Injection)</a></li>
+<li><a href="#deserialization-and-php-object-injection">Deserialization and PHP Object Injection</a></li>
+<li><a href="#password-hashing">Password Hashing</a></li>
+<li><a href="#general-purpose-cryptography">General-Purpose Cryptography</a></li>
+</ul>
+</li>
+<li><a href="#specialized-use-cases">Specialized Use-Cases</a><ul>
+<li><a href="#searchable-encryption">Searchable Encryption</a></li>
+<li><a href="#token-based-authentication-without-side-channels">Token-based Authentication without Side-Channels</a></li>
+<li><a href="#developing-secure-apis">Developing Secure APIs</a></li>
+<li><a href="#security-event-logging-with-chronicle">Security Event Logging with Chronicle</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%9C%E8%80%85%E5%BE%8C%E8%A8%98">作者後記</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+<!-- /MarkdownTOC -->
+
+<p>原文網址：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/12/2018-guide-building-secure-php-software">https://paragonie.com/blog/2017/12/2018-guide-building-secure-php-software</a></p>
+<p>隨著將到來的 2018 年，一般技術人員（尤其是網路開發者）必須拋棄原有開發安全 PHP 應用軟體的舊習與信念。尤其是對於許多不相信這樣壯舉的人來說。<br>本指南作為「<a target="_blank" rel="noopener" href="http://www.phptherightway.com/">PHP: The Right Way</a>」電子書（<a target="_blank" rel="noopener" href="http://laravel-taiwan.github.io/php-the-right-way/">繁中版</a>）的補充，強調的是安全性，而不是一般PHP程式開發者主題（如：代碼風格）</p>
+<span id="more"></span>
+
+<p><a name="php-versions"></a></p>
+<h1 id="PHP-Versions"><a href="#PHP-Versions" class="headerlink" title="PHP Versions"></a>PHP Versions</h1><blockquote>
+<p>簡而言之：建議在 2018 年運行 PHP 7.2, 並計劃在 2019年初轉換到 PHP 7.3</p>
+</blockquote>
+<p>PHP 7.2 已經在 2017-11-30 釋出。</p>
+<p>在撰寫本文時，僅有 PHP 7.1 與 7.2 會得到 PHP 開發人員的積極支援，而 PHP 5.6 和 7.0 大約會在一年內得到安全性修正。</p>
+<p>一些提供舊版本PHP的長期支援(LTS)作業系統，這樣的做法通常被認為是有害的。尤其是，在它們增加安全補丁時，不一併增加PHP版號的壞習慣，使得很難推論這些PHP版本的安全性。</p>
+<p>因此，無論供應商做出了什麼承諾，只要你能夠幫忙，就應該努力在任何時候運行被主動支持的PHP版本。這樣的話，即使最終只購買一個安全版本，持續升級的工作也會讓你的生活免受不愉快的驚喜。</p>
+<p><a name="dependency-management"></a></p>
+<h1 id="Dependency-Management"><a href="#Dependency-Management" class="headerlink" title="Dependency Management"></a>Dependency Management</h1><blockquote>
+<p>簡而言之：使用 Composer</p>
+</blockquote>
+<p>用於PHP生態系統最先進的依賴管理解決方案是 Composer。我們強烈推薦可以去看「<a target="_blank" rel="noopener" href="http://www.phptherightway.com/">PHP: The Right Way</a>」裡面有專門介紹 Composer 入門的部分</p>
+<p>如果您不使用 Composer 來管理專案的依賴關係，最終會導致您依賴的某個軟件庫嚴重過時，然後將會讓利用舊版本漏洞的電腦犯罪份子有機可趁。</p>
+<p><strong>重要：</strong>在開發軟體的時候，請記得更新依賴軟件庫的版本，可使用這行指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">composer update</span><br></pre></td></tr></table></figure>
+
+<p>如果您正在做一些特殊的事情，需要使用PHP擴展（用C語言編寫），那麼就不能用 Composer 來安裝，需要使用 PECL。</p>
+<p><a name="recommended-packages"></a></p>
+<h2 id="Recommended-Packages"><a href="#Recommended-Packages" class="headerlink" title="Recommended Packages"></a>Recommended Packages</h2><p>不論你在開發什麼，幾乎可以肯定你會受益於這些依賴套件。這也是大多數 PHP 開發人員推薦的（PHPUnit, PHP-CS-Fixer 等等）</p>
+<p><strong>roave/security-advisories</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Roave/SecurityAdvisories">Roave’s security-advisories</a> 套件使用 <a target="_blank" rel="noopener" href="https://github.com/FriendsOfPHP/security-advisories">Friends of PHP repository</a> 來確保你的專案不依賴任何已知容易受攻擊的軟件庫。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">composer require roave/security-advisories:dev-master</span><br></pre></td></tr></table></figure>
+
+<p>或者您可以將您的 composer.lock 文件上傳到 <a target="_blank" rel="noopener" href="https://security.sensiolabs.org/">Sensio Labs</a>，作為自動化漏洞評估工作流程的一部分，用來提醒任何過舊的軟件套。</p>
+<p><strong>vimeo/psalm</strong></p>
+<p>Psalm 是一個靜態分析工具，可以幫助找出代碼中可能存在的錯誤。雖然還有其他不錯的靜態分析工具（比如Phan和PHPStan都很好），如果發現需要支援 PHP 5的話，Psalm 是 PHP 5.4+ 靜態分析工具的首選。</p>
+<p>使用 Psalm 相當容易：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Version 1 doesn&#x27;t exist yet, but it will one day:</span><br><span class="line">composer require --dev vimeo/psalm:^0</span><br><span class="line"></span><br><span class="line"># Only do this once:</span><br><span class="line">vendor/bin/psalm --init</span><br><span class="line"></span><br><span class="line"># Do this as often as you need:</span><br><span class="line">vendor/bin/psalm</span><br></pre></td></tr></table></figure>
+
+<p>如果是第一次在現有的代碼上運行，可能會看到很多紅色。除非你正在建構像WordPress一樣大的應用程式，不然將很要很費力的才能通過所有的測試。</p>
+<p>無論您使用那種靜態分析工具，我們都建議你將它放入現有的持續整合流程中，並在每次程式碼有變動後執行檢查。</p>
+<p><a name="https-and-browser-security"></a></p>
+<h1 id="HTTPS-and-Browser-Security"><a href="#HTTPS-and-Browser-Security" class="headerlink" title="HTTPS and Browser Security"></a>HTTPS and Browser Security</h1><blockquote>
+<p>簡而言之：HTTPS, 要被測試過，安全的檔頭</p>
+</blockquote>
+<p>在2018年，瀏覽網站將不在被接受只用不安全的HTTP，幸運的是，由於ACME協議和Let’s Encrypt證書頒發機構，將可以免費獲得以及自動更新TLS證書。</p>
+<p>整合 ACME 到網站是小事一件</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://caddyserver.com/">Caddy</a>: 自動地綁定了</li>
+<li><a target="_blank" rel="noopener" href="https://letsencrypt.org/2017/10/17/acme-support-in-apache-httpd.html">Apache</a>: 很快地就可以在 mod_md 上用。在那之前，網路上有很多<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04">不錯的教學</a>可以參考。</li>
+<li><a target="_blank" rel="noopener" href="https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/">Nginx</a>: 相對直接了當(?)</li>
+</ul>
+<p>你可能會想“好吧！我有一個TLS證書了，現在我必須在網站安全且快速之前花費幾個小時來搞這些設定配置”。不！<a target="_blank" rel="noopener" href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">Mozilla</a> 會幫助你。你可以使用<a target="_blank" rel="noopener" href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">配置生成器</a>來根據目標受眾建構推薦的<a target="_blank" rel="noopener" href="https://wiki.mozilla.org/Security/Server_Side_TLS">密碼套件</a></p>
+<p>如果您希望您的網站安全，HTTPS(基於TLS的HTTP)是絕對 non-negotiable(不可協商？)的。使用HTTPS可以立即消除對用戶的多種攻擊(中間人內容注入、竊聽、replay攻擊以及若干形式的 session 操作，否則會允許用戶模擬)</p>
+<p><a name="security-headers"></a></p>
+<h2 id="Security-Headers"><a href="#Security-Headers" class="headerlink" title="Security Headers"></a>Security Headers</h2><p>然而在您的服務上使用HTTPS確實為您的用戶提供了許多安全性與性能方面的好處，您還可以更近一步通過利用瀏覽器的其他安全功能。當中大部分涉及到與您內容一起發送的HTTP響應檔頭。</p>
+<ul>
+<li><p><code>Content-Security-Policy</code></p>
+<ul>
+<li>您需要這個檔頭，因為它可以對瀏覽器允許載入內部和外部資源進行詳細控制，進而替跨網域攻擊提供有效的防禦。</li>
+<li>請參閱<a target="_blank" rel="noopener" href="https://github.com/paragonie/csp-builder">CSP-Builder</a>，以便快速簡便地部署/管理 Content-Security-Policy。</li>
+<li>為了更深入的分析，Scott Helme 對 <a target="_blank" rel="noopener" href="https://scotthelme.co.uk/content-security-policy-an-introduction/">Content-Security-Policy 檔頭的介紹</a>是個很好的入門</li>
+</ul>
+</li>
+<li><p><code>Expect-CT</code></p>
+<ul>
+<li>您需要這個，因為它通過強迫不良行為者將他們錯誤發放證書的證據發佈到可公開驗證的附加數據結構中，增加這一層針對流氓/受損證書頒發機構的保護。<a target="_blank" rel="noopener" href="https://scotthelme.co.uk/a-new-security-header-expect-ct/">瞭解更多Expect-CT</a></li>
+<li>最初將它設為 <code>enforce,max-age=30</code>，並增加 <code>max-age</code> 直到你確定這樣不會造成服務中斷</li>
+</ul>
+</li>
+<li><p><code>Referrer-Policy</code></p>
+<ul>
+<li>您需要這個，因為它允許你控制你是否洩漏有關用戶行為信息給第三方</li>
+<li>Scott Helme 再一次的深入的介紹 <a target="_blank" rel="noopener" href="https://scotthelme.co.uk/a-new-security-header-referrer-policy/">Referrer-Policy 檔頭</a></li>
+<li>設定為 <code>same-origin</code> 或 <code>no-referrer</code> 除非你有其他理由來設置的更寬鬆</li>
+</ul>
+</li>
+<li><p><code>Strict-Transport-Security</code></p>
+<ul>
+<li>您需要這個，因為他告訴瀏覽器強制所有功能請求(requests)透過同源的HTTPS而不是不安全的HTTP。</li>
+<li>第一次部署時設定 <code>max-age=30</code>，然後當確定沒有任何內容會中斷的時候，將此值增大 (e.g. <code>31536000</code>)</li>
+</ul>
+</li>
+<li><p><code>X-Content-Type-Options</code></p>
+<ul>
+<li>您需要這個，因為 MIME 類型的混淆可能會導致不可預期的結果，包括在奇怪邊際情況下允許 XSS 漏洞，最好伴著一個標準的 <code>Content-Type</code> 檔頭</li>
+<li>設為 <code>nosniff</code> 除非你需要其他默認的狀況 (e.g. 用於檔案下載)</li>
+</ul>
+</li>
+<li><p><code>X-Frame-Options</code></p>
+<ul>
+<li>您需要這個，因為它可以讓你防止點擊劫持(clickjacking)</li>
+<li>設為 <code>DENY</code> (或 <code>SAMEORIGIN</code> 當你使用 <strong><frame></strong> 這元素時)</li>
+</ul>
+</li>
+<li><p><code>X-XSS-Protection</code></p>
+<ul>
+<li>您需要這個，因為它啟用了一些瀏覽器在默認情況下未啟用的 anti-XSS 功能</li>
+<li>設定 <code>1; mode=block</code></li>
+</ul>
+</li>
+</ul>
+<p>同樣的，如果您使用 PHP 內建的 session 管理功能(建議使用)，您可能需要調用 <code>seeion_start()</code> ，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session_start([</span><br><span class="line">    &#x27;cookie_httponly&#x27; =&gt; true,</span><br><span class="line">    &#x27;cookie_secure&#x27; =&gt; true</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<p>這會強制您的應用程式在 HTTP-Only 或安全標誌下發送 session id 時，防止被 XSS 攻擊竊取用戶資料，且強制他們分別通過 HTTPS 發送，這在之前 2015 年部落格文章中有介紹 <a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/04/fast-track-safe-and-secure-php-sessions">secure PHP sessions</a></p>
+<p><a name="subresource-integrity"></a></p>
+<h2 id="Subresource-Integrity"><a href="#Subresource-Integrity" class="headerlink" title="Subresource Integrity"></a>Subresource Integrity</h2><p>在日後您可能會使用 CDN 的方式來載入 JavaScript / CSS 框架。</p>
+<p>資安工程師已經注意到一個明顯的缺失；如果很多網站使用 CDN 來提供他們的內容，那麼 CDN 遭到盜用並且更換內容後，將可會影響到上千的網站。</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity">subresource integrity</a></p>
+<p>Subresource integrity (SRI) 允許你將 CDN 服務的文件內容進行 hash 處理。SRI 目前只允許使用安全的加密 hash 方法，這表示攻擊者不可能生成跟原始文件內容 hash 後相同的文件。</p>
+<p>舉個例子: <a target="_blank" rel="noopener" href="https://v4-alpha.getbootstrap.com/">Bootstrap v4-alpha uses SRI in their CDN example snippet</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;link</span><br><span class="line">    rel=&quot;stylesheet&quot;</span><br><span class="line">    href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css&quot;</span><br><span class="line">    integrity=&quot;sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ&quot;</span><br><span class="line">    crossorigin=&quot;anonymous&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;script</span><br><span class="line">    src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js&quot;</span><br><span class="line">    integrity=&quot;sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn&quot;</span><br><span class="line">    crossorigin=&quot;anonymous&quot;</span><br><span class="line">&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a name="document-relationships"></a></p>
+<h2 id="Document-Relationships"><a href="#Document-Relationships" class="headerlink" title="Document Relationships"></a>Document Relationships</h2><p>網頁開發人員經常在超連結上設置目標屬性(e.g. <code>target=&quot;_blank&quot;</code>)在新視窗開啟連結，但是，如果沒有使用 <code>rel=&quot;noopener&quot;</code> 屬性，則可能<a target="_blank" rel="noopener" href="https://mathiasbynens.github.io/rel-noopener/">允許開啟的頁面來控制原始頁面</a></p>
+<p>別這麼做，這會讓 <code>example.com</code> 有可能來控制你目前的頁面</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;a href=&quot;http://example.com&quot; target=&quot;_blank&quot;&gt;Click here&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p>請替換成，這樣開啟新視窗到 <code>example.com</code> 時，就不用擔心會有惡意的第三方想來操控原本的頁面。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;a href=&quot;https://example.com&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Click here&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever">進一步閱讀</a></p>
+<p><a name="developing-secure-php-software"></a></p>
+<h1 id="Developing-Secure-PHP-Software"><a href="#Developing-Secure-PHP-Software" class="headerlink" title="Developing Secure PHP Software"></a>Developing Secure PHP Software</h1><p>如果應用程式安全性對你是個新的議題，可先從 <a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/08/gentle-introduction-application-security">A Gentle Introduction to Application Security(應用程式安全簡介)</a> 開始。大多數資安專家指出，開發人員可以使用 <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Top_10_2017-Top_10">OWASP Top 10</a> 等資源。</p>
+<p>但是，大多數常見的漏洞可以看作是相同的高級別安全問題實例（代碼與資料沒有完全分離，邏輯不健全，不安全的操作環境，或殘破的密碼協議）。長遠來看，我們會假設教育這些安全新手，對這些安全問題有更簡單、更基本的理解以及如何解決這些問題，將會朔造更好的安全工程。</p>
+<p><a name="database-interaction"></a></p>
+<h2 id="Database-Interaction"><a href="#Database-Interaction" class="headerlink" title="Database Interaction"></a>Database Interaction</h2><blockquote>
+<p>深入來說: 防止 PHP 應用程序中的 SQL Injection</p>
+</blockquote>
+<p>如果在撰寫 SQL 查詢語句，請確定是使用 prepared statements 的方式來將透過網路傳遞進來的參數傳遞進去，而不是用字串相接的方式來組出 SQL 語句。此外，確定<a target="_blank" rel="noopener" href="https://stackoverflow.com/a/12202218">不是使用 emulated prepared statements</a></p>
+<p>這裡用 <a target="_blank" rel="noopener" href="https://github.com/paragonie/easydb">EasyDB</a> 舉例</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/* Insecure code: */</span><br><span class="line">$query = $pdo-&gt;query(&quot;SELECT * FROM users WHERE username = &#x27;&quot; . $_GET[&#x27;username&#x27;] . &quot;&#x27;&quot;);</span><br></pre></td></tr></table></figure>
+<p>請替換成這樣的語法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/* Secure against SQL injection: */</span><br><span class="line">$results = $easydb-&gt;row(&quot;SELECT * FROM users WHERE username = ?&quot;, $_GET[&#x27;username&#x27;]);</span><br></pre></td></tr></table></figure>
+<p>還有其他資料庫抽象層提供了相同的安全性（EasyDB實際背後使用了PDO，避免使用到 emulation prepared statement 來防止安全問題），只要使用者輸入不會影響到查詢的結構，就很安全。(這包括了 stored procedures)</p>
+<p><a name="file-uploads"></a></p>
+<h2 id="File-Uploads"><a href="#File-Uploads" class="headerlink" title="File Uploads"></a>File Uploads</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/10/how-securely-allow-users-upload-files">如何安全地允許使用者上傳檔案</a></p>
+</blockquote>
+<p>接受檔案上傳是有風險的，但是可以安全地做到這點，只要採取一些基本的預防措施。也就是說：防止上傳的檔案可直接存取，這種方式可能意外的讓他們能夠被執行。上傳的檔案應該只能是唯讀或可讀可寫，永遠不能被執行。</p>
+<p>如果你的網站根目錄為 <code>/var/www/example.com</code>，你將不會希望檔案存放到 <code>/var/www/example.com/uploaded_files</code>。反之，你希望將檔案放在不能直接存取的獨立目錄中(e.g. `/var/www/example.com-uploaded/)，避免以外的執行了 server 端的 script 並開啟遠端代碼執行。</p>
+<p>更簡潔的解決辦法是將根目錄後移一層(如: <code>/var/www/example.com/public</code>)</p>
+<p>檔案上傳的另一個問題是，安全的下載他們</p>
+<ul>
+<li>SVG 檔案，當直接訪問時，將可能會執行用戶端瀏覽器的 JavaScript 代碼，即使 <a target="_blank" rel="noopener" href="https://github.com/w3c/svgwg/issues/266">MIME 類型是 <code>image/</code> 開頭</a></li>
+<li>如上所述，MIME sniffing 可能會導致被攻擊，可以參照 <a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/12/2018-guide-building-secure-php-software#security-headers"><code>X-Content-Type-Options</code></a></li>
+<li>如果你放棄先前關於如何安全地儲存上傳文件的建議，攻擊者可透過瀏覽器直接上傳 .php 或 .phtml 來執行任意代碼，進而讓他們獲得伺服器的完整控制權。</li>
+</ul>
+<p><a name="cross-site-scripting-xss"></a></p>
+<h2 id="Cross-Site-Scripting-XSS"><a href="#Cross-Site-Scripting-XSS" class="headerlink" title="Cross-Site Scripting (XSS)"></a>Cross-Site Scripting (XSS)</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/06/preventing-xss-vulnerabilities-in-php-everything-you-need-know">你需要知道一切關於 PHP 中的跨站腳本攻擊</a></p>
+</blockquote>
+<p>實際上，XSS 和 SQL injection 一樣容易。我們可用個簡單易用的 API 來將檔案結構與資料分離。<br>不幸的是，在實際經驗上，大多數 Web 開發人員將生成一長串的 HTML 並將它發送到 HTTP 的響應中，這不只在 PHP 開發中見到，這只是一般常見的 Web 開發方式。</p>
+<p>減輕 XSS 漏洞不是一個失敗的原因。 但是，瀏覽器安全部分中的所有內容突然變得非常相關。 簡而言之:</p>
+<ol>
+<li>輸出永遠記得跳脫(escape)，輸入則不用。如果乾淨的資料放在資料庫中，發現其他地方有 SQL 注入式攻擊(SQL injection)，攻擊者可以惡意軟體完全繞過 XSS 的保護來污染這些資料。</li>
+<li>如果您使用的框架樣板引擎有提供自動上下文過濾，請使用它來讓框架變得安全。</li>
+<li><code>echo htmlentities($string, ENT_QUOTES | ENT_HTML5, &#39;UTF-8&#39;);</code>是個有安全有效的方法來阻止 UTF-8 編碼頁面上所有的 XSS 攻擊，但不允許字串內有 HTML 編碼。</li>
+<li>如果允許你使用 Markdown 語法來替代 HTML，就盡可能別用 HTML</li>
+<li>如果你需要使用 HTML 而非樣版引擎的話，請使用 <a target="_blank" rel="noopener" href="http://htmlpurifier.org/">HTML Purifier</a>，HTML Purifier 不適合用在 HTML 轉譯的上下文。</li>
+</ol>
+<p><a name="cross-site-request-forgery-csrf"></a></p>
+<h2 id="Cross-Site-Request-Forgery-CSRF"><a href="#Cross-Site-Request-Forgery-CSRF" class="headerlink" title="Cross-Site Request Forgery (CSRF)"></a>Cross-Site Request Forgery (CSRF)</h2><p>跨網站偽造請求是種混淆副攻擊，通常藉著欺騙用戶瀏覽器或提高用戶權限來，代替攻擊者執行惡意的 HTTP 請求。</p>
+<p>一般情況下可以透過簡單的兩步驟來解決：</p>
+<ol>
+<li>使用 HTTPS，這是先決條件，在沒有 HTTPS 的情況下連線就相對不安全，不過 HTTPS 並不能制止 CSRF。</li>
+<li>添加基本的挑戰響應機制的驗證(challenge-response)</li>
+</ol>
+<ul>
+<li>為每個表單加入一個隱藏的表單屬性</li>
+<li>填入安全的隨機碼(稱為 token)</li>
+<li>驗證表單是否提供這隱藏屬性，是否符合預期</li>
+</ul>
+<p>我們寫了個 <a target="_blank" rel="noopener" href="https://github.com/paragonie/anti-csrf">Anti-CSRF</a> 的函式庫來更進階處理：</p>
+<ul>
+<li>你可以使每個 token 只能使用一次來，來防止重複攻擊</li>
+<li>多個 token 存放在後端</li>
+<li>token 到期後記得替換成新的</li>
+<li>每個 token 綁定到特定的 URL</li>
+<li>如果一個 token 洩漏，就無法在不同的內容中使用</li>
+<li>Token 可以綁定到特定IP</li>
+<li>v2.1版之後，token 就可以被重複使用(為了 AJAX 調用)</li>
+</ul>
+<p>如果你用的框架沒有做到 CSRF 漏洞的處理，記得使用 Anti-CSRF。在不久的將來，可以使用 <a target="_blank" rel="noopener" href="https://www.sjoerdlangkemper.nl/2016/04/14/preventing-csrf-with-samesite-cookie-attribute/">SameSite cookies 來防止 CSRF 攻擊</a>。</p>
+<p><a name="xml-attacks-xxe-xpath-injection"></a></p>
+<h2 id="XML-Attacks-XXE-XPath-Injection"><a href="#XML-Attacks-XXE-XPath-Injection" class="headerlink" title="XML Attacks (XXE, XPath Injection)"></a>XML Attacks (XXE, XPath Injection)</h2><p>在執行大量 XML 處理的應用程序中存在兩個主要的漏洞：</p>
+<ul>
+<li>XML External Entities（XXE）</li>
+<li>XPath Injection</li>
+</ul>
+<p>XXE 攻擊可以啟動本地/遠端包含攻擊執行的文件。早期著名的有 Google Docs 遭到 XXE 攻擊，但是在他們大量操作 XML 的商業應用程序之外大部分是聞所未聞的。</p>
+<p>針對 XXE 襲擊的主要緩解措施如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">libxml_disable_entity_loader(true);</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/XPATH_Injection">XPath Injection</a> 與 SQL injection 很像，不過是使用 XML 檔案。幸運的是，PHP 生態中要將用戶輸入的值傳入 XPath 是很罕見的。反之不幸的是，也意味著 PHP 生態中不存在可用的最佳解法，最好的方法是在任何有關 XPath 查詢的資料上使用允許的字符當作白名單。白名單比黑名單來得安全。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">declare(strict_types=1);</span><br><span class="line"></span><br><span class="line">class SafeXPathEscaper</span><br><span class="line">&#123;</span><br><span class="line">    /**</span><br><span class="line">     * @param string $input</span><br><span class="line">     * @return string</span><br><span class="line">     */</span><br><span class="line">    public static function allowAlphaNumeric(string $input): string</span><br><span class="line">    &#123;</span><br><span class="line">        return \preg_replace(&#x27;#[^A-Za-z0-9]#&#x27;, &#x27;&#x27;, $input);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param string $input</span><br><span class="line">     * @return string</span><br><span class="line">     */</span><br><span class="line">    public static function allowNumeric(string $input): string</span><br><span class="line">    &#123;</span><br><span class="line">        return \preg_replace(&#x27;#[^0-9]#&#x27;, &#x27;&#x27;, $input);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Usage:</span><br><span class="line">$selected = $xml-&gt;xpath(</span><br><span class="line">    &quot;/user/username/&quot; . SafeXPathEscaper::allowAlphaNumeric(</span><br><span class="line">        $_GET[&#x27;username&#x27;]</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><a name="deserialization-and-php-object-injection"></a></p>
+<h2 id="Deserialization-and-PHP-Object-Injection"><a href="#Deserialization-and-PHP-Object-Injection" class="headerlink" title="Deserialization and PHP Object Injection"></a>Deserialization and PHP Object Injection</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2016/04/securely-implementing-de-serialization-in-php">在 PHP 中安全地實現(反)序列化</a></p>
+</blockquote>
+<p>如果將不可靠的數據傳入 <code>unserialize()</code>，通常會是下面兩個結果之一：</p>
+<ol>
+<li>PHP Object Injection，它可以被用來啟動一連串反應並觸發其他被誤用的物件漏洞。</li>
+<li>PHP 直譯器本身的記憶體損壞</li>
+</ol>
+<p>大多數開發者喜歡用 JSON 來做序列化，這對改善軟體安全是有幫助的，但是記住 <code>json_decode()</code> 容易受到透過 <a target="_blank" rel="noopener" href="http://lukasmartinelli.ch/web/2014/11/17/php-dos-attack-revisited.html">hash 碰撞造成的阻斷式攻擊(hash-collision denial-of-service (Hash-DoS))</a>，不幸的是 PHP 的 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=70644">Hash-DoS 問題還沒能完全解決</a>。</p>
+<p>從 djb33 遷移到 SipHash，對於字串的輸入，hash 輸出最高為設為 1，對於整數輸入設置為 0，在每個請求時使用 CSPRNG(密碼學偽隨機數生成器，英文：Cryptographically secure pseudorandom number generator，通稱CSPRNG)，將能完全解決這問題。</p>
+<p>不幸的是，PHP 團隊還沒有準備好放棄他們在 PHP 7 中取得的性能提升，所以說服他們放棄 djb33（這個速度非常快，但是不安全），轉而支持SipHash（雖然速度不如 djb33 快，但更安全），這是一個很難解決的問題。如果效能受到重大影響，可能會阻礙在未來版本被採用，進而影響到安全性。</p>
+<p>所以，最好的做法是：</p>
+<ul>
+<li>使用 JSON，因為比 <code>unserialize()</code> 安全</li>
+<li>如果可以，在反序列化輸入內容前先驗證過<ul>
+<li>對於提供給最終用戶的數據，透過只有網路伺服器才知道的密鑰使用 <code>sodium_crypto_auth()</code> 和 <code>sodium_crypto_auth_verify()</code></li>
+<li>對於提供給第三方的數據，請他們透過 <code>sodium_crypto_sign()</code> 來對 JSON 做簽署，並搭配第三公鑰使用 <code>sodium_crypto_sign_open()</code> 來做驗證<ul>
+<li>如果需要對 hex 或 base64 編碼傳輸進行簽署，也可以使用分離的簽署 API</li>
+</ul>
+</li>
+<li>如果無法驗證 JSON 字串，請嚴格限速並阻止 IP 地址來減少重複的違規者</li>
+</ul>
+</li>
+</ul>
+<p><a name="password-hashing"></a></p>
+<h2 id="Password-Hashing"><a href="#Password-Hashing" class="headerlink" title="Password Hashing"></a>Password Hashing</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2016/02/how-safely-store-password-in-2016">在2016年如何安全地儲存您的密碼</a></p>
+</blockquote>
+<p>安全的密碼儲存曾經是個激烈的議題，但現在實作起來相當微不足道，特別是在 PHP 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$hash = \password_hash($password, PASSWORD_DEFAULT);</span><br><span class="line"></span><br><span class="line">if (\password_verify($password, $hash)) &#123;</span><br><span class="line">    // Authenticated.</span><br><span class="line">    if (\password_needs_rehash($hash, PASSWORD_DEFAULT)) &#123;</span><br><span class="line">        // Rehash, update database.</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你甚至不用知道背後使用什麼演算法，如果使用了最新版本的 PHP，也就會使用當前最新的演算法，並且只要有新的演算法可用，用戶的密碼也會被自動升級。不論妳做什麼，都不要做 <a target="_blank" rel="noopener" href="https://paragonie.com/blog/2016/08/on-insecurity-popular-open-source-php-cms-platforms#wordpress-password-storage">WordPress 做過的事</a>。</p>
+<p>如果你很好奇，從 PHP 5.5 到 PHP 7.2 默認的演算法是 bcrypt，未來可能改用<a target="_blank" rel="noopener" href="https://password-hashing.net/">密碼 hash 大賽冠軍</a>的 Argon2。如果您以前沒有使用 <code>password_*</code> API，並且有傳統的 hash 需要遷移，請確保以<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2016/02/how-safely-store-password-in-2016#legacy-hashes">這種方式</a>進行。很多公司弄錯，最有名的是 <a target="_blank" rel="noopener" href="https://www.theregister.co.uk/2016/12/15/yahoos_password_hash/">Yahoo</a>，最近不正確的升級了傳統的 hash 似乎導致了 <a target="_blank" rel="noopener" href="https://objective-see.com/blog/blog_0x24.html">Apple 最近的 <code>iamroot</code> 錯誤</a>。</p>
+<p><a name="general-purpose-cryptography"></a></p>
+<h2 id="General-Purpose-Cryptography"><a href="#General-Purpose-Cryptography" class="headerlink" title="General-Purpose Cryptography"></a>General-Purpose Cryptography</h2><p>這是我們寫的另一個主題：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/05/using-encryption-and-authentication-correctly">正確使用加密和認證</a>(2015)</li>
+<li><a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/07/how-safely-generate-random-strings-and-integers-in-php">如何在PHP中安全地產生隨機字符串和整數</a>(2015)</li>
+<li>推薦：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/11/choosing-right-cryptography-library-for-your-php-project-guide">為您的PHP項目選擇正確的加密庫：指南</a>（2015）</li>
+<li>建議：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2015/08/you-wouldnt-base64-a-password-cryptography-decoded">You Wouldn’t Base64 a Password - Cryptography Decoded</a>（2015）</li>
+<li><a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/02/cryptographically-secure-php-development">Cryptographically Secure PHP Development</a>(2017)</li>
+<li>推薦：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/06/libsodium-quick-reference-quick-comparison-similar-functions-and-which-one-use">Libsodium快速參考：類似命名的函數及其使用案例</a>（2017）</li>
+</ul>
+<p>一般來說，您總是希望使用 Sodium 密碼函式庫（libsodium）進行應用層的加密，如果你需要支援 PHP 7.2 之前的版本，可以使用 <a target="_blank" rel="noopener" href="https://github.com/paragonie/sodium_compat">sodium_compat</a>來假裝用戶也在 7.2 的版本。</p>
+<p>在特殊情況下，因為嚴格的演算法選擇與相互操作上，您可以需要不同的函式庫。如果有疑問，可以諮詢密碼專家，來了解密碼選擇和密碼工程師實作上是否安全。</p>
+<p><a name="specialized-use-cases"></a></p>
+<h1 id="Specialized-Use-Cases"><a href="#Specialized-Use-Cases" class="headerlink" title="Specialized Use-Cases"></a>Specialized Use-Cases</h1><p>現在您已經掌握了2018年以後構建安全PHP應用程序的基礎知識，接下來我們來看一些更專業的用例</p>
+<p><a name="searchable-encryption"></a></p>
+<h2 id="Searchable-Encryption"><a href="#Searchable-Encryption" class="headerlink" title="Searchable Encryption"></a>Searchable Encryption</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/05/building-searchable-encrypted-databases-with-php-and-sql">使用PHP和SQL構建可搜索的加密資料庫</a></p>
+</blockquote>
+<p>可搜索的加密資料庫是理想的，但普遍被認為是不太可能實現的。上面的文章試圖讓讀者通過我們的解決方案來發展得更深入，但實際上：</p>
+<ol>
+<li>設計您的架構，database compromise 不會讓攻擊者訪問您的加密金鑰</li>
+<li>在一個密鑰下加密數據</li>
+<li>基於 HMAC 或具有靜態 salt 的安全KDF(如: Argon2)創建多個索引（具有它們自己獨特的密鑰）。</li>
+<li>可選：放棄第三步驟，使用布隆過濾器(Bloom filter)</li>
+<li>在 SELECT 查詢結果使用步驟3或4來輸出</li>
+<li>解密結果</li>
+</ol>
+<p>這過程的任何一步都可以根據使用情況來斟酌。</p>
+<p><a name="token-based-authentication-without-side-channels"></a></p>
+<h2 id="Token-based-Authentication-without-Side-Channels"><a href="#Token-based-Authentication-without-Side-Channels" class="headerlink" title="Token-based Authentication without Side-Channels"></a>Token-based Authentication without Side-Channels</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/02/split-tokens-token-based-authentication-protocols-without-side-channels">Split Tokens: Token-Based Authentication Protocols without Side-Channels</a></p>
+</blockquote>
+<p>說到資料庫，你知道 SELECT 查詢在理論上可能是定時訊息洩漏的來源。<br>簡單的遷移：</p>
+<ol>
+<li>把驗證的 token 減少一半</li>
+<li>使用一半的 SELECT 查詢在理論上可能是定時訊息洩漏的來源。</li>
+<li>在常數時間內驗證後半部</li>
+</ol>
+<ul>
+<li>您可以選擇將後半部分的 hash 存在資料庫中，而不是半個 token。這對於只能使用一次的 token 是有意義的;像是密碼重置或“記住我”</li>
+</ul>
+<p>這樣即時使用了定時洩漏所竊取來的一半 token，剩下的另一半需要強烈的攻擊才能成功。</p>
+<p><a name="developing-secure-apis"></a></p>
+<h2 id="Developing-Secure-APIs"><a href="#Developing-Secure-APIs" class="headerlink" title="Developing Secure APIs"></a>Developing Secure APIs</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/06/hardening-your-php-powered-apis-with-sapient">使用 Sapient 來強化 PHP 支援的 API</a></p>
+</blockquote>
+<p>我們開發了 Secure API ENgineering Toolkit <a target="_blank" rel="noopener" href="https://github.com/paragonie/sapient">SAPIENT</a>來確保兩台伺服器間的身份驗證不用費太多力氣。除了 HTTPS 提供的安全性外，Sapinet 允許您使用共享密鑰或公鑰加密來加密/驗證訊息。</p>
+<p>這使您可以使用 Ed25519 對 API 請求和響應進行身份驗證，或者將消息加密到只能由接收方服務器的密鑰解密，即使存在中間人攻擊者並設有流氓/入侵 證書頒發機構。</p>
+<p>由於每個 HTTP 訓息都通過安全密碼進行身份驗證，因此可以安全地使用它來代替有狀態 token 雜耍協議（例如OAuth）。但是，在密碼學方面，在不做任何規範的事情之前，總要確保他們的實現是由專家研究的。</p>
+<p>所有 Sapient 使用的密碼都由 Sodium 密碼術函式庫提供。</p>
+<p>進一步閱讀:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/paragonie/sapient/tree/master/docs">Sapient Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/paragonie/sapient/blob/master/docs/Tutorial.md">Sapient Tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/paragonie/sapient/blob/master/docs/Specification.md">Sapient Specification</a></li>
+</ul>
+<p>Paragon Initiative Enterprises 已經在其許多產品（包括許多開源軟體專案）中使用了 Sapient，並將繼續為 Sapient 用戶組合添加軟件項目。</p>
+<p><a name="security-event-logging-with-chronicle"></a></p>
+<h2 id="Security-Event-Logging-with-Chronicle"><a href="#Security-Event-Logging-with-Chronicle" class="headerlink" title="Security Event Logging with Chronicle"></a>Security Event Logging with Chronicle</h2><blockquote>
+<p>深入來說：<a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/07/chronicle-will-make-you-question-need-for-blockchain-technology">Chronicle 會讓你質疑區塊鏈技術的需求</a></p>
+</blockquote>
+<p>Chronicle 是個基於 hash-chain 資料結構的 只進行追加(append-only)加密帳本，引起了許多公司對”區塊鏈”技術的興趣。除了只進行追加(append-only)加密帳本具創造性之外，Chronicle 集成到 SIEM 中時也有優點，因為您可以發送安全關鍵事件到私有的 Chronicle 中，並且它們保持不可變。如果您的 Chronicle 設置為將其摘要散列交叉簽名到其他 Chronicle 中，或是還有其他重製您 Chronicle 內容的實例，攻擊者將很難篡改您的安全事件日誌。<br>通過 Chronicle，您可以獲得區塊鏈的所有彈性，而沒有任何隱私，性能或彈性問題。要將資料發佈到本地的 Chronicle，您可以使用任何與 <a target="_blank" rel="noopener" href="https://paragonie.com/blog/2017/12/2018-guide-building-secure-php-software#secure-api-sapient">Sapient 兼容的 API</a>，但最簡單的解決方案稱為 <a target="_blank" rel="noopener" href="https://github.com/paragonie/quill">Quill</a>。</p>
+<p><a name="%E4%BD%9C%E8%80%85%E5%BE%8C%E8%A8%98"></a></p>
+<h1 id="作者後記"><a href="#作者後記" class="headerlink" title="作者後記"></a>作者後記</h1><p>一個聰明的讀者可能注意到我們引用了很多我們自己的工作（部落格文章和開源軟件），但我們不僅僅是引用了我們自己的工作。</p>
+<p>這不是偶然的。</p>
+<p>自從我們於2015年初成立以來，我們一直在編寫安全性相關的函式庫，並致力於提高 PHP 生態系統的安全性。</p>
+<p>我們已經介紹了很多，我們的資安工程師（他們最近在 PHP 核心中推行更安全的加密技術，只是要到 PHP 7.2），並不擅長宣揚他的工作或興趣完成的作品。對於我們多年來開發的工具或函式庫，你可能有一半沒聽過，關於這點我很抱歉。</p>
+<p>但是，我們也不可能成為各方面的先行者，所以我們在可能的情況下，選擇了認為與公眾利益更一致的專業工作，而不藏私。這就是為什麼瀏覽器安全專用的許多部分都參考了 Scott Helme 和公司的工作，他們在為開發人員提供這些容易理解的新安全功能。</p>
+<p>本指南當然不是詳盡的。寫出不安全代碼的方法幾乎和撰寫代碼一樣多。安全是一種心態，而不是目的性。隨著上面所寫的一切與提供的資源，我們希望這將有助於全世界的開發人員從今天開始用 PHP 開發安全的軟體。</p>
+<p><a name="resources"></a></p>
+<h1 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h1><p>如果您已經按照本篇上的所有內容進行了操作，並且需要更多內容，那麼您可能會對我們策劃的<a target="_blank" rel="noopener" href="https://github.com/paragonie/awesome-appsec">閱讀列表感興趣，以便學習應用程序安全性</a>。</p>
+<p>如果你已經寫出了足夠安全的代碼，並且希望我們從資安工程師的角度來提供指教。這正是我們<a target="_blank" rel="noopener" href="https://paragonie.com/services">提供的服務</a>。</p>
+<p>[打廣告部分先省略]</p>
+<p>接下來是 PHP 和資訊安全社區提供的資源列表，這些資源幫助互聯網更加安全：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.phptherightway.com/">PHP: The Right Way</a>，線上免費的現代PHP開發指南</li>
+<li><a target="_blank" rel="noopener" href="https://mozilla.github.io/server-side-tls/ssl-config-generator/">Mozilla’s SSL Config Generator</a></li>
+<li><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>，通過證書頒發機構提供免費 TLS 證書來創造更安全的網路。</li>
+<li><a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest">Qualys SSL Labs</a> 提供一個快速又簡單的工具來測試 TLS 配置，幾乎每個人都用這個來解決他們安全憑證相關問題。</li>
+<li><a target="_blank" rel="noopener" href="https://www.websiteplanet.com/webtools/ssl-checker/">SSL Checker</a> 提供SSL檢查的工具，介面友善好操作，網站上還有其他有用的工具可以參考使用。</li>
+<li><a target="_blank" rel="noopener" href="https://securityheaders.io/">Security Headers</a> 讓您可以使用瀏覽器安全功能來保護您的用戶，且驗證網站安全。</li>
+<li><a target="_blank" rel="noopener" href="https://report-uri.com/">Report-URI</a> 一個不錯的免費網路資源，用來開始檢查檔頭安全。如果有發現 XSS 的媒介，會被通報到 Report-URI，讓 Report-URI 彙整這些問題來提供你更好的服務。</li>
+<li><a target="_blank" rel="noopener" href="https://www.ripstech.com/php-security-calendar-2017">The PHP Security Advent Calendar</a> by the team behind <a target="_blank" rel="noopener" href="https://www.ripstech.com/">RIPSTech</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://snuffleupagus.readthedocs.io/">Snuffleupagus</a>, 一個安全導向的 PHP 模組 (有很大程度是被遺棄的 <a target="_blank" rel="noopener" href="https://github.com/sektioneins/suhosin">Suhosin</a> 精神繼承者).</li>
+<li><a target="_blank" rel="noopener" href="https://phpdelusions.net/">PHP Delusions</a>，一個致力於更好地使用PHP的網站。大部分的口氣都有點自負，但作者對技術的準確性和清晰度的奉獻使得它值得一讀，特別是對於那些不太喜歡PDO功能的人來說。</li>
+<li><a target="_blank" rel="noopener" href="https://haveibeenpwned.com/">Have I Been Pwned?</a> 幫助用戶找出他們過去的資料是否洩漏。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/composer/" rel="tag"><i class="fa fa-tag"></i> composer</a>
+              <a href="/tags/security/" rel="tag"><i class="fa fa-tag"></i> security</a>
+              <a href="/tags/https/" rel="tag"><i class="fa fa-tag"></i> https</a>
+              <a href="/tags/injection/" rel="tag"><i class="fa fa-tag"></i> injection</a>
+              <a href="/tags/XSS/" rel="tag"><i class="fa fa-tag"></i> XSS</a>
+              <a href="/tags/CSRF/" rel="tag"><i class="fa fa-tag"></i> CSRF</a>
+              <a href="/tags/password/" rel="tag"><i class="fa fa-tag"></i> password</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/11/05/%E5%B8%B8%E7%94%A8CSS%E7%B4%80%E9%8C%84/" rel="prev" title="常用CSS紀錄">
+                  <i class="fa fa-chevron-left"></i> 常用CSS紀錄
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/10/apple-pay-on-the-web-%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98/" rel="next" title="Apple Pay on the Web 開發筆記">
+                  Apple Pay on the Web 開發筆記 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

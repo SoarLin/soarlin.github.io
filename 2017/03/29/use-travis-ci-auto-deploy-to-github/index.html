@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前期準備 Add Private Key 加入 SSH 連線設定 增加 ssh 連線的 config 設定 .travis.yml 內設定   增加 git 資訊 加入 Hexo 以及執行 Deploy 補充：   後記 Reference     其實一直都想研究一下 CI&#x2F;CD 的一些流程，知道 Travis CI 可以結合 Github 上的專案來進行，那就先從一些簡單的小專案開始好了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Travis CI 自動發布 Hexo 內容到 Github">
+<meta property="og:url" content="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="前期準備 Add Private Key 加入 SSH 連線設定 增加 ssh 連線的 config 設定 .travis.yml 內設定   增加 git 資訊 加入 Hexo 以及執行 Deploy 補充：   後記 Reference     其實一直都想研究一下 CI&#x2F;CD 的一些流程，知道 Travis CI 可以結合 Github 上的專案來進行，那就先從一些簡單的小專案開始好了">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-03-29T15:27:57.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.426Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="TravisCI">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/","path":"2017/03/29/use-travis-ci-auto-deploy-to-github/","title":"使用 Travis CI 自動發布 Hexo 內容到 Github"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 Travis CI 自動發布 Hexo 內容到 Github | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">前期準備</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-Private-Key"><span class="nav-number">2.</span> <span class="nav-text">Add Private Key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5-SSH-%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A"><span class="nav-number">3.</span> <span class="nav-text">加入 SSH 連線設定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0-ssh-%E9%80%A3%E7%B7%9A%E7%9A%84-config-%E8%A8%AD%E5%AE%9A"><span class="nav-number">3.1.</span> <span class="nav-text">增加 ssh 連線的 config 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#travis-yml-%E5%85%A7%E8%A8%AD%E5%AE%9A"><span class="nav-number">3.2.</span> <span class="nav-text">.travis.yml 內設定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0-git-%E8%B3%87%E8%A8%8A"><span class="nav-number">4.</span> <span class="nav-text">增加 git 資訊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5-Hexo-%E4%BB%A5%E5%8F%8A%E5%9F%B7%E8%A1%8C-Deploy"><span class="nav-number">5.</span> <span class="nav-text">加入 Hexo 以及執行 Deploy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%EF%BC%9A"><span class="nav-number">5.1.</span> <span class="nav-text">補充：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%8C%E8%A8%98"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2017/03/29/use-travis-ci-auto-deploy-to-github/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Travis CI 自動發布 Hexo 內容到 Github | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Travis CI 自動發布 Hexo 內容到 Github
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-03-29 23:27:57" itemprop="dateCreated datePublished" datetime="2017-03-29T23:27:57+08:00">2017-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CI-CD/" itemprop="url" rel="index"><span itemprop="name">CI/CD</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/03/29/use-travis-ci-auto-deploy-to-github/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/29/use-travis-ci-auto-deploy-to-github/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#%E5%89%8D%E6%9C%9F%E6%BA%96%E5%82%99">前期準備</a></li>
+<li><a href="#add-private-key">Add Private Key</a></li>
+<li><a href="#%E5%8A%A0%E5%85%A5-ssh-%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A">加入 SSH 連線設定</a><ul>
+<li><a href="#%E5%A2%9E%E5%8A%A0-ssh-%E9%80%A3%E7%B7%9A%E7%9A%84-config-%E8%A8%AD%E5%AE%9A">增加 ssh 連線的 config 設定</a></li>
+<li><a href="#travisyml-%E5%85%A7%E8%A8%AD%E5%AE%9A">.travis.yml 內設定</a></li>
+</ul>
+</li>
+<li><a href="#%E5%A2%9E%E5%8A%A0-git-%E8%B3%87%E8%A8%8A">增加 git 資訊</a></li>
+<li><a href="#%E5%8A%A0%E5%85%A5-hexo-%E4%BB%A5%E5%8F%8A%E5%9F%B7%E8%A1%8C-deploy">加入 Hexo 以及執行 Deploy</a><ul>
+<li><a href="#%E8%A3%9C%E5%85%85%EF%BC%9A">補充：</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BE%8C%E8%A8%98">後記</a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+<!-- /MarkdownTOC -->
+
+
+<p>其實一直都想研究一下 CI/CD 的一些流程，知道 Travis CI 可以結合 Github 上的專案來進行，那就先從一些簡單的小專案開始好了，上網找到一篇<a target="_blank" rel="noopener" href="https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/">文章</a>有 Travis CI 與 Github 以及 Hexo 的關鍵字，害我好興奮，看了好一陣子後決定上了！</p>
+<span id="more"></span>
+<p><a name="%E5%89%8D%E6%9C%9F%E6%BA%96%E5%82%99"></a></p>
+<h1 id="前期準備"><a href="#前期準備" class="headerlink" title="前期準備"></a>前期準備</h1><ul>
+<li>申請 Travis CI 帳號</li>
+<li>串接 Github 上的 repo</li>
+<li>替 github 的 repo 加上 .trivas.yml 檔案<ul>
+<li>這就比較麻煩，因為得根據各自專案的程式語言來撰寫，我也超不熟，只好去官方網站看<a target="_blank" rel="noopener" href="https://docs.travis-ci.com/user/languages/">文件</a>了</li>
+<li>我先以目前 hexo 的專案為例，就如下面顯示少少兩三行</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">  - &#x27;4&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<p><a name="add-private-key"></a></p>
+<h1 id="Add-Private-Key"><a href="#Add-Private-Key" class="headerlink" title="Add Private Key"></a>Add Private Key</h1><p>因為不能大辣辣的把自己 ssh private key 丟到 github 上，所以 Travis CI 提供加密的方式，可以把 private 加密，等到 Travis 上再來處理；因為我已經把自己電腦的 private key 加到 github 上，所以就直接把 key 加到 Travis 與對應的 repo 上</p>
+<ul>
+<li>安裝 Travis command line tool，因為使用 ruby 所以要確認電腦已經安裝好 ruby</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gem install travis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>透過 Command Line Tool 登入到 Travis，需要輸入 github 的帳號密碼</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">travis login --auto</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>將自己的 private key 加到對應 repo，加入後會自動改寫 .travis.yml 檔案<ul>
+<li>我後來在專案下建立 .travis 目錄，然後將 private key 資料放進去</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">travis encrypt-file ~/.ssh/id_rsa_github --add</span><br><span class="line"></span><br><span class="line">// or 手動指定 repo</span><br><span class="line">travis encrypt-file ~/.ssh/id_rsa_github --add YOUR-NAME/YOUR-REPO-NAME</span><br><span class="line"></span><br><span class="line">mkdir .travis</span><br><span class="line">cp id_rsa_github.enc .travis/</span><br></pre></td></tr></table></figure>
+
+<p>這時候 .travis.yml 裡面會被添加一些加解密的指令，就不要亂改嘍！注意最後的 <code>-in xxxxx.enc -out oooooo -d</code>，當中<code>xxxxx</code>是剛剛加密後產生的 .enc 檔，而<code>ooooo</code>是 Travis 解密後的檔案路徑，之後會一直用到</p>
+<ul>
+<li><code>-in xxxxx.enc</code> 整個 repo 被 Travis CI 抓取後 private key 的相對路徑，剛剛搬到 .travis 目錄下，所以是 <code>.travis/id_rsa_github.enc</code></li>
+<li><code>-out ooooooo</code> 解密後 private key 路徑，後續會再用到，這裡我定義成 <code>~/.ssh/id_rsa</code></li>
+</ul>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">&#x27;4&#x27;</span></span><br><span class="line"><span class="attr">before_install:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">openssl</span> <span class="string">aes-256-cbc</span> <span class="string">-K</span> <span class="string">$encrypted_43f1702cd897_key</span> <span class="string">-iv</span> <span class="string">$encrypted_43f1702cd897_iv</span> <span class="string">-in</span> <span class="string">.travis/id_rsa_github.enc</span> <span class="string">-out</span> <span class="string">~/.ssh/id_rsa</span> <span class="string">-d</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a name="%E5%8A%A0%E5%85%A5-ssh-%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A"></a></p>
+<h1 id="加入-SSH-連線設定"><a href="#加入-SSH-連線設定" class="headerlink" title="加入 SSH 連線設定"></a>加入 SSH 連線設定</h1><p>這時只是把自己的 private key 加密後，在 Travis 從 github 抓出來解密成功，接著還需要指定 SSH 連回 github 使用剛剛解密的 private key，步驟大概是：</p>
+<p><a name="%E5%A2%9E%E5%8A%A0-ssh-%E9%80%A3%E7%B7%9A%E7%9A%84-config-%E8%A8%AD%E5%AE%9A"></a></p>
+<h2 id="增加-ssh-連線的-config-設定"><a href="#增加-ssh-連線的-config-設定" class="headerlink" title="增加 ssh 連線的 config 設定"></a>增加 ssh 連線的 config 設定</h2><ul>
+<li>自己的再連 github 的時候，因為有兩個 github 帳號，所以產生了兩組 private key使用，連帶需要把 ssh 連線設定分開寫</li>
+<li>這邊只列出自己目前常用帳號的 ssh 連線設定提供參考</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim .travis/ssh_config</span><br></pre></td></tr></table></figure>
+
+<p>內容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># SoarLin@github</span><br><span class="line">Host SoarLin.github.com</span><br><span class="line">	HostName github.com</span><br><span class="line">	User git</span><br><span class="line">	StrictHostKeyChecking no</span><br><span class="line">	# 底下路徑需要根據實際 Travis CI 上存取解開後的 private key 位置</span><br><span class="line">	IdentityFile ~/.ssh/id_rsa</span><br><span class="line">	IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+
+<p><a name="travisyml-%E5%85%A7%E8%A8%AD%E5%AE%9A"></a></p>
+<h2 id="travis-yml-內設定"><a href="#travis-yml-內設定" class="headerlink" title=".travis.yml 內設定"></a>.travis.yml 內設定</h2><ol>
+<li>更改 private key 權限為 600</li>
+<li>將 private key 增加到系統中</li>
+<li>將 ssh 連線搬到系統 <code>~/.ssh</code> 目錄下</li>
+</ol>
+<p>以上這些動作，大概會讓 .travis.yml 檔案變成如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">	- &#x27;4&#x27;</span><br><span class="line">before_install:</span><br><span class="line">	- openssl aes-256-cbc -K $encrypted_43f1702cd897_key -iv $encrypted_43f1702cd897_iv -in .travis/id_rsa_github.enc -out id_rsa -d</span><br><span class="line"></span><br><span class="line">	- chmod 600 ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">	- eval $(ssh-agent)</span><br><span class="line">	- ssh-add ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">	- cp .travis/ssh_config ~/.ssh/config</span><br></pre></td></tr></table></figure>
+
+<p><a name="%E5%A2%9E%E5%8A%A0-git-%E8%B3%87%E8%A8%8A"></a></p>
+<h1 id="增加-git-資訊"><a href="#增加-git-資訊" class="headerlink" title="增加 git 資訊"></a>增加 git 資訊</h1><p>因為 hexo deploy 的時候，會將所有產生出來的檔案 push 回 github，所以需要有個 git psuh 的使用者資訊，所以繼續加入 .travis.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">node_js:</span><br><span class="line">	- &#x27;4&#x27;</span><br><span class="line">before_install:</span><br><span class="line">	- openssl aes-256-cbc -K $encrypted_43f1702cd897_key -iv $encrypted_43f1702cd897_iv -in id_rsa_github.enc -out id_rsa_github -d</span><br><span class="line"></span><br><span class="line">	- chmod 600 id_rsa_github</span><br><span class="line"></span><br><span class="line">	- eval $(ssh-agent)</span><br><span class="line">	- ssh-add id_rsa_github</span><br><span class="line"></span><br><span class="line">	- cp .travis/ssh_config ~/.ssh/config</span><br><span class="line"></span><br><span class="line">	- git config --global user.name &quot;Soar Lin&quot;</span><br><span class="line">	- git config --global user.email soar.lin@gmail.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a name="%E5%8A%A0%E5%85%A5-hexo-%E4%BB%A5%E5%8F%8A%E5%9F%B7%E8%A1%8C-deploy"></a></p>
+<h1 id="加入-Hexo-以及執行-Deploy"><a href="#加入-Hexo-以及執行-Deploy" class="headerlink" title="加入 Hexo 以及執行 Deploy"></a>加入 Hexo 以及執行 Deploy</h1><p>最後當然是把 hexo 套件安裝好，然後執行<code>hexo generate</code>來產生檔案，以及<code>hexo deploy</code>來自動發布，因為我自己還要把 blog 文章丟去 ElasticSearch Server 建立 index 來做搜尋索引，所以會再多一些東西，最後完成的 .travis.yml 大概如下：</p>
+<p><a name="%E8%A3%9C%E5%85%85%EF%BC%9A"></a></p>
+<h2 id="補充："><a href="#補充：" class="headerlink" title="補充："></a>補充：</h2><p>一開始忘了把 package.json 內相關套件安裝，所以後來才又補上 <code>npm install</code>，以及增加個 cache，才不用每次都重新安裝 node_modules 內的套件。</p>
+<p>目前 repo 內的佈景，不曉得為何沒有跟著上 github，所以之前 deploy 後，整個頁面空空如也，所以只好再把布景重新傳上去</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">language: node_js</span><br><span class="line"></span><br><span class="line">node_js:</span><br><span class="line">  - &#x27;4&#x27;</span><br><span class="line"></span><br><span class="line">cache:</span><br><span class="line">  directories:</span><br><span class="line">    - node_modules</span><br><span class="line"></span><br><span class="line">before_install:</span><br><span class="line">  - openssl aes-256-cbc -K $encrypted_43f1702cd897_key -iv $encrypted_43f1702cd897_iv -in .travis/id_rsa_github.enc -out ~/.ssh/id_rsa -d</span><br><span class="line"></span><br><span class="line">  - chmod 600 ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">  - eval $(ssh-agent)</span><br><span class="line">  - ssh-add ~/.ssh/id_rsa</span><br><span class="line"></span><br><span class="line">  - cp .travis/ssh_config ~/.ssh/config</span><br><span class="line"></span><br><span class="line">  - git config --global user.name &quot;Soar Lin&quot;</span><br><span class="line">  - git config --global user.email soar.lin@gmail.com</span><br><span class="line"></span><br><span class="line">  - npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">install:</span><br><span class="line">  - npm install</span><br><span class="line"></span><br><span class="line">script:</span><br><span class="line">  - hexo generate</span><br><span class="line">  - curl -i -X POST &quot;https://soar.stco.tw/update&quot; -F &#x27;file=@db.json&#x27; -F &#x27;index=blog&#x27; -F &#x27;type=articles&#x27;</span><br><span class="line">  - hexo deploy</span><br><span class="line"></span><br><span class="line">branches:</span><br><span class="line"> only:</span><br><span class="line">  - master</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a name="%E5%BE%8C%E8%A8%98"></a></p>
+<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h1><p>雖然好像不複雜，可是我也是照著大大的教學文章，做了好幾個小時，不斷的失敗，不斷的找其他資料參考，最後才完成這小小的流程。希望之後可以越來越上手嘍～</p>
+<p><a name="reference"></a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://www.karlzhou.com/2016/05/28/travis-ci-deploy-blog/">用Travis CI自动部署Hexo博客</a> &lt;– 推薦這篇，很詳細<br><a target="_blank" rel="noopener" href="https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/">用 Travis CI 自動部署網站到 GitHub</a> &lt;– Hexo作者大大的文章<br><a target="_blank" rel="noopener" href="https://ssarcandy.tw/2016/07/29/hexo-auto-deploy/">用 Travis CI 自動部屬 hexo 到 GitHub</a><br><a target="_blank" rel="noopener" href="http://xwartz.xyz/pupa/2016/06/auto-update-with-travis-ci/">使用 Travis CI 自动更新 Hexo Blog</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+              <a href="/tags/TravisCI/" rel="tag"><i class="fa fa-tag"></i> TravisCI</a>
+              <a href="/tags/Github/" rel="tag"><i class="fa fa-tag"></i> Github</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/02/28/get-start-with-google-cloud-platform/" rel="prev" title="Google Cloud Platform 初體驗">
+                  <i class="fa fa-chevron-left"></i> Google Cloud Platform 初體驗
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/04/21/Composer-NPM-install-update/" rel="next" title="Composer與NPM指令 install 與 update 的差異">
+                  Composer與NPM指令 install 與 update 的差異 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

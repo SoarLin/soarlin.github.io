@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="需要工具 參考文獻 操作步驟 Step 1. Create Lambda function Step 2. Use example code Step 3. Setting event trigger Step 4. Naming and setting role authority Step 5. Check setting   Lambda 使用方法    最近因為工作上的需求，需要把影">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transcoding AWS S3 media files using AWS Lambda">
+<meta property="og:url" content="https://soarlin.github.io/2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="需要工具 參考文獻 操作步驟 Step 1. Create Lambda function Step 2. Use example code Step 3. Setting event trigger Step 4. Naming and setting role authority Step 5. Check setting   Lambda 使用方法    最近因為工作上的需求，需要把影">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step1.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step2.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step3.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step4-1.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step4-2.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step5.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda1.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda2.jpg">
+<meta property="og:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda3.jpg">
+<meta property="article:published_time" content="2016-09-11T06:37:23.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.424Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="s3">
+<meta property="article:tag" content="elastictranscoder">
+<meta property="article:tag" content="lambda">
+<meta property="article:tag" content="node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://soarlin.github.io/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step1.jpg">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/","path":"2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/","title":"Transcoding AWS S3 media files using AWS Lambda"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Transcoding AWS S3 media files using AWS Lambda | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">需要工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB"><span class="nav-number">2.</span> <span class="nav-text">參考文獻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%A9%9F"><span class="nav-number">3.</span> <span class="nav-text">操作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-Create-Lambda-function"><span class="nav-number">3.1.</span> <span class="nav-text">Step 1. Create Lambda function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-Use-example-code"><span class="nav-number">3.2.</span> <span class="nav-text">Step 2. Use example code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-Setting-event-trigger"><span class="nav-number">3.3.</span> <span class="nav-text">Step 3. Setting event trigger</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4-Naming-and-setting-role-authority"><span class="nav-number">3.4.</span> <span class="nav-text">Step 4. Naming and setting role authority</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-5-Check-setting"><span class="nav-number">3.5.</span> <span class="nav-text">Step 5. Check setting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Lambda 使用方法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Transcoding AWS S3 media files using AWS Lambda | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Transcoding AWS S3 media files using AWS Lambda
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2016-09-11 14:37:23" itemprop="dateCreated datePublished" datetime="2016-09-11T14:37:23+08:00">2016-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/11/Transcoding-AWS-S3-media-files-using-AWS-Lambda/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#%E9%9C%80%E8%A6%81%E5%B7%A5%E5%85%B7">需要工具</a></li>
+<li><a href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">參考文獻</a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%A9%9F">操作步驟</a><ul>
+<li><a href="#step-1-create-lambda-function">Step 1. Create Lambda function</a></li>
+<li><a href="#step-2-use-example-code">Step 2. Use example code</a></li>
+<li><a href="#step-3-setting-event-trigger">Step 3. Setting event trigger</a></li>
+<li><a href="#step-4-naming-and-setting-role-authority">Step 4. Naming and setting role authority</a></li>
+<li><a href="#step-5-check-setting">Step 5. Check setting</a></li>
+</ul>
+</li>
+<li><a href="#lambda-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">Lambda 使用方法</a></li>
+</ul>
+<!-- /MarkdownTOC -->
+
+<p>最近因為工作上的需求，需要把影片檔案轉換成串流的格式，還好有想到去年似乎有參加一場 AWS 開發者大會聽到類似這樣的技術，這樣就不用自己很辛苦的架設一台 Streaming Server 了，但是缺點就是當 AWS 的服務用的越爽，就會被 AWS 給綁架，以後沒 AWS 可以用怎麼辦！！！</p>
+<span id="more"></span>
+
+<p><a name="需要工具"></a></p>
+<h2 id="需要工具"><a href="#需要工具" class="headerlink" title="需要工具"></a>需要工具</h2><p>整個作法其實不算很複雜，但是必須先理解滿多服務如何使用，這裡大致上會使用到的 AWS 服務項目有：S3, Elastic Transcoder, Lambda。</p>
+<ul>
+<li>S3 : 儲存空間</li>
+<li>Elastic Transcoder : 轉檔服務，可將 S3 上的影音檔轉成各種格式</li>
+<li>Lambda : 類似可自行撰寫的 API，來完成一些制式的工作項目</li>
+</ul>
+<p>首先，需自行花點時間了解 Elastic Transcoder 的操作與使用，這部份可自行上網找尋相關資訊，或參考<a target="_blank" rel="noopener" href="https://foliovision.com/player/video-hosting/securing-your-video/hls-stream">這篇</a>。</p>
+<p>如果 Elastic Transcoder 都已經了解怎麼操作，就算是已經理解這像轉檔服務的使用方式，接著就是透過 Lambda 的方式將這些工作自動化，所以接下來的重頭戲就是如何撰寫 Lambda 的 function 了，沒記錯的話，目前提供三種語法來撰寫，有 Python、Node.js、Java 三種，就請大家找個自己最熟悉或擅長的程式語言吧！</p>
+<p>底下我會以 Node.js 的語法來當範例，因為 Python 跟 Java 都很不熟，node.js 至少算是 javascript 的好親戚，平時多少有再寫。</p>
+<p><a name="參考文獻"></a></p>
+<h2 id="參考文獻"><a href="#參考文獻" class="headerlink" title="參考文獻"></a>參考文獻</h2><p>先附上個人參考文獻，其實能力好的，看完這兩篇，大概也不用我多廢話了</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tonym.us/using-aws-lambda-for-web-video-transcoding.html">Using AWS Lambda for Web Video Transcoding</a></li>
+<li><a target="_blank" rel="noopener" href="https://axcessblog.wordpress.com/2015/09/21/automating-transcoding-using-aws-service-elastic-transcoder-lambda-s3-notifications/">Automating Transcoding using AWS service (Elastic Transcoder , Lambda, S3 notifications)</a></li>
+</ul>
+<p><a name="操作步驟"></a></p>
+<h2 id="操作步驟"><a href="#操作步驟" class="headerlink" title="操作步驟"></a>操作步驟</h2><p>底下先來看圖說故事，先到 AWS Lambda 內去建立一個 function，內容是由 S3 bucket 內特定資料夾(video/)內，建立(新增/上傳)了一個 mp4 檔案時，所觸發的條件。</p>
+<p><a name="step-1-create-lambda-function"></a></p>
+<h3 id="Step-1-Create-Lambda-function"><a href="#Step-1-Create-Lambda-function" class="headerlink" title="Step 1. Create Lambda function"></a>Step 1. Create Lambda function</h3><p><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step1.jpg" alt="Create Lambda function"></p>
+<p><a name="step-2-use-example-code"></a></p>
+<h3 id="Step-2-Use-example-code"><a href="#Step-2-Use-example-code" class="headerlink" title="Step 2. Use example code"></a>Step 2. Use example code</h3><p>有範例程式就選來用吧！不然就得自己從頭寫，挺麻煩的<br><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step2.jpg" alt="Use example code"></p>
+<p><a name="step-3-setting-event-trigger"></a></p>
+<h3 id="Step-3-Setting-event-trigger"><a href="#Step-3-Setting-event-trigger" class="headerlink" title="Step 3. Setting event trigger"></a>Step 3. Setting event trigger</h3><p>確定好觸發 Lambda 的條件設定<br><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step3.jpg" alt="Setting event trigger"></p>
+<p><a name="step-4-naming-and-setting-role-authority"></a></p>
+<h3 id="Step-4-Naming-and-setting-role-authority"><a href="#Step-4-Naming-and-setting-role-authority" class="headerlink" title="Step 4. Naming and setting role authority"></a>Step 4. Naming and setting role authority</h3><p>命名以及設定執行 Lambda 的角色權限<br><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step4-1.jpg" alt="Naming and setting role authority"> <img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step4-2.jpg" alt="Naming and setting role authority"></p>
+<p>在此提供該角色權限的 Policy</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;Version&quot;</span>: <span class="string">&quot;2012-10-17&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Statement&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;Effect&quot;</span>: <span class="string">&quot;Allow&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Action&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;logs:CreateLogGroup&quot;</span>,</span><br><span class="line">                <span class="string">&quot;logs:CreateLogStream&quot;</span>,</span><br><span class="line">                <span class="string">&quot;logs:PutLogEvents&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">&quot;Resource&quot;</span>: <span class="string">&quot;arn:aws:logs:*:*:*&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;Effect&quot;</span>: <span class="string">&quot;Allow&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Action&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;s3:GetObject&quot;</span>,</span><br><span class="line">                <span class="string">&quot;s3:PutObject&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">&quot;Resource&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;arn:aws:s3:::*&quot;</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;Sid&quot;</span>: <span class="string">&quot;Stmt1441234334958&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Action&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;elastictranscoder:CreateJob&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">&quot;Effect&quot;</span>: <span class="string">&quot;Allow&quot;</span>,</span><br><span class="line">            <span class="string">&quot;Resource&quot;</span>: <span class="string">&quot;*&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="step-5-check-setting"></a></p>
+<h3 id="Step-5-Check-setting"><a href="#Step-5-Check-setting" class="headerlink" title="Step 5. Check setting"></a>Step 5. Check setting</h3><p>檢查一下所有的設定，沒問題就繼續了！<br><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/step5.jpg" alt="Check setting"></p>
+<p><a name="lambda-使用方法"></a></p>
+<h2 id="Lambda-使用方法"><a href="#Lambda-使用方法" class="headerlink" title="Lambda 使用方法"></a>Lambda 使用方法</h2><p>畫面截圖後簡單說明<br><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda1.jpg" alt="Lambda-use-1"></p>
+<p>測試檔的用法</p>
+<ol>
+<li>左上角的 Action -&gt; Configure test event</li>
+<li>然後選澤 S3 Put 的範例來修改，進行測試</li>
+<li>請到 S3 上找個檔案來比對修改測試檔範例，改好後測試的結果應該如上一張圖。</li>
+</ol>
+<p><img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda2.jpg" alt="Lambda-use-2"> <img src="/images/Transcoding-AWS-S3-media-files-using-AWS-Lambda/lambda3.jpg" alt="Lambda-use-3"></p>
+<p>再熟悉 lambda 的使用方式後，就可以開始撰寫轉檔的部份了，其實就是再 S3 上傳 mp4 檔後，建立一個 <strong>Elastic Transcoder</strong> 的工作來進行轉檔</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Loading function&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> AWS = <span class="built_in">require</span>(<span class="string">&#x27;aws-sdk&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> s3 = <span class="keyword">new</span> AWS.S3(&#123; <span class="attr">apiVersion</span>: <span class="string">&#x27;2006-03-01&#x27;</span> &#125;);</span><br><span class="line"><span class="keyword">var</span> eltr = <span class="keyword">new</span> AWS.ElasticTranscoder(&#123;</span><br><span class="line">    <span class="attr">apiVersion</span>: <span class="string">&#x27;2012-09-25&#x27;</span>,</span><br><span class="line">    <span class="attr">region</span>: <span class="string">&#x27;ap-northeast-1&#x27;</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> pipelineId = <span class="string">&#x27;1453215075XXX-XXXXXX&#x27;</span>;  <span class="comment">// please use your pipeline id</span></span><br><span class="line"><span class="comment">// System preset: HLS 1.5M</span></span><br><span class="line"><span class="keyword">var</span> preset_HLS_15M  = <span class="string">&#x27;1351620000001-200020&#x27;</span>;</span><br><span class="line"><span class="comment">// return basename without extension</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">basename</span>(<span class="params">path</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> path.split(<span class="string">&#x27;/&#x27;</span>).reverse()[<span class="number">0</span>].split(<span class="string">&#x27;.&#x27;</span>)[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.handler = <span class="function"><span class="keyword">function</span>(<span class="params">event, context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> bucket = event.Records[<span class="number">0</span>].s3.bucket.name;</span><br><span class="line">    <span class="keyword">var</span> key    = event.Records[<span class="number">0</span>].s3.object.key;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        <span class="attr">Bucket</span>: bucket,</span><br><span class="line">        <span class="attr">Key</span>: key</span><br><span class="line">    &#125;;</span><br><span class="line">    s3.getObject(params, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err);</span><br><span class="line">            <span class="keyword">var</span> message = <span class="string">&quot;Error getting object &quot;</span> + key + <span class="string">&quot; from bucket &quot;</span> + bucket +</span><br><span class="line">                <span class="string">&quot;. Make sure they exist and your bucket is in the same region as this function.&quot;</span>;</span><br><span class="line">            <span class="built_in">console</span>.log(message);</span><br><span class="line">            context.fail(message);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">/* Below section can be used if you want to put any check based on metadata */</span></span><br><span class="line">            <span class="keyword">if</span> (data.ContentType == <span class="string">&#x27;video/mp4&#x27;</span>) &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;Found new video: &#x27;</span> + key + <span class="string">&#x27;, sending to ET&#x27;</span>);</span><br><span class="line">                sendVideoToET(key, context);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&#x27;Upload &#x27;</span> + key + <span class="string">&#x27;was not video&#x27;</span>);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(data.Metadata));</span><br><span class="line">                context.fail();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendVideoToET</span>(<span class="params">key, context</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        <span class="attr">PipelineId</span>: pipelineId,</span><br><span class="line">        <span class="attr">OutputKeyPrefix</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="attr">Input</span>: &#123;</span><br><span class="line">            <span class="attr">Key</span>: key,</span><br><span class="line">            <span class="attr">FrameRate</span>: <span class="string">&#x27;auto&#x27;</span>,</span><br><span class="line">            <span class="attr">Resolution</span>: <span class="string">&#x27;auto&#x27;</span>,</span><br><span class="line">            <span class="attr">AspectRatio</span>: <span class="string">&#x27;auto&#x27;</span>,</span><br><span class="line">            <span class="attr">Interlaced</span>: <span class="string">&#x27;auto&#x27;</span>,</span><br><span class="line">            <span class="attr">Container</span>: <span class="string">&#x27;auto&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">Output</span>: &#123;</span><br><span class="line">            <span class="attr">Key</span>: <span class="string">&#x27;stream/&#x27;</span> + basename(key),</span><br><span class="line">            <span class="attr">ThumbnailPattern</span>: <span class="string">&#x27;stream-thumb/&#x27;</span> + basename(key) + <span class="string">&#x27;-thumb-&#123;count&#125;&#x27;</span>,</span><br><span class="line">            <span class="attr">PresetId</span>: preset_HLS_15M,</span><br><span class="line">            <span class="attr">Rotate</span>: <span class="string">&#x27;auto&#x27;</span>,</span><br><span class="line">            <span class="attr">SegmentDuration</span>: <span class="string">&quot;10&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    eltr.createJob(params, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err, err.stack); <span class="comment">// an error occurred</span></span><br><span class="line">            context.fail();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&quot;Create Job Success&quot;</span>);</span><br><span class="line">            context.succeed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先到自己 S3 bucket 上建立 video 目錄，然後傳個 mp4 擋上去，接著修改一下 test configure 的內容，使用剛剛傳上去的 mp4 檔來測試，當測試成功後，再回到 S3 bucket 內，應該就可以看到轉出來的檔案在 stream 目錄下，以及縮圖在 stream-thumb 下</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/s3/" rel="tag"><i class="fa fa-tag"></i> s3</a>
+              <a href="/tags/elastictranscoder/" rel="tag"><i class="fa fa-tag"></i> elastictranscoder</a>
+              <a href="/tags/lambda/" rel="tag"><i class="fa fa-tag"></i> lambda</a>
+              <a href="/tags/node-js/" rel="tag"><i class="fa fa-tag"></i> node.js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/09/04/Webpack-Note/" rel="prev" title="Webpack Note">
+                  <i class="fa fa-chevron-left"></i> Webpack Note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/09/15/SPRINT%E8%A1%9D%E5%88%BA%E8%A8%88%E7%95%AB-Part1/" rel="next" title="SPRINT衝刺計畫 - Part1">
+                  SPRINT衝刺計畫 - Part1 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

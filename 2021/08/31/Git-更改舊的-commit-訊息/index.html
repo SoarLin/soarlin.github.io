@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="記錄一下怎麼使用 git 指令來修改舊的 commit 訊息。 修改當前 commit 訊息這應該是最基本的指令，透過 --amend 來修改當前的 commit 訊息。可以一行指令來直接更新成新的 commit 內容 $ git commit --amend -m &quot;New commit message.&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 更改舊的 commit 訊息">
+<meta property="og:url" content="https://soarlin.github.io/2021/08/31/Git-%E6%9B%B4%E6%94%B9%E8%88%8A%E7%9A%84-commit-%E8%A8%8A%E6%81%AF/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="記錄一下怎麼使用 git 指令來修改舊的 commit 訊息。 修改當前 commit 訊息這應該是最基本的指令，透過 --amend 來修改當前的 commit 訊息。可以一行指令來直接更新成新的 commit 內容 $ git commit --amend -m &quot;New commit message.&quot;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-08-31T08:47:46.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.422Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2021/08/31/Git-%E6%9B%B4%E6%94%B9%E8%88%8A%E7%9A%84-commit-%E8%A8%8A%E6%81%AF/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2021/08/31/Git-%E6%9B%B4%E6%94%B9%E8%88%8A%E7%9A%84-commit-%E8%A8%8A%E6%81%AF/","path":"2021/08/31/Git-更改舊的-commit-訊息/","title":"Git 更改舊的 commit 訊息"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git 更改舊的 commit 訊息 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%95%B6%E5%89%8D-commit-%E8%A8%8A%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">修改當前 commit 訊息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%AD%B7%E5%8F%B2-commit-%E8%A8%8A%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">修改歷史 commit 訊息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2021/08/31/Git-%E6%9B%B4%E6%94%B9%E8%88%8A%E7%9A%84-commit-%E8%A8%8A%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git 更改舊的 commit 訊息 | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git 更改舊的 commit 訊息
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-08-31 16:47:46" itemprop="dateCreated datePublished" datetime="2021-08-31T16:47:46+08:00">2021-08-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Server/" itemprop="url" rel="index"><span itemprop="name">Server</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/08/31/Git-%E6%9B%B4%E6%94%B9%E8%88%8A%E7%9A%84-commit-%E8%A8%8A%E6%81%AF/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/31/Git-更改舊的-commit-訊息/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>記錄一下怎麼使用 git 指令來修改舊的 commit 訊息。</p>
+<h1 id="修改當前-commit-訊息"><a href="#修改當前-commit-訊息" class="headerlink" title="修改當前 commit 訊息"></a>修改當前 commit 訊息</h1><p>這應該是最基本的指令，透過 <code>--amend</code> 來修改當前的 commit 訊息。<br>可以一行指令來直接更新成新的 commit 內容</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git commit --amend -m <span class="string">&quot;New commit message.&quot;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<p>或是執行下面的指令來進入 git 編輯模式更改原本的 commit 訊息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改歷史-commit-訊息"><a href="#修改歷史-commit-訊息" class="headerlink" title="修改歷史 commit 訊息"></a>修改歷史 commit 訊息</h1><p>如果目前的情況是，想要修改之前某一筆 commit 的訊息，就得用 <code>git rebase -i HEAD~N</code> 的方式來修改了。其中的 N 是要修改的 commit 數量，所以如果要改的是之前的第四筆資料，就是 <code>git rebase -i HEAD~4</code>。這時會出現類似下面的畫面：<br>這時會將 <mark class="label success">HEAD~4</mark> 到 <mark class="label success">HEAD</mark> 的訊息列出，就是<mark class="label danger">最後四筆 commit 倒序列出來</mark>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git rebase -i HEAD~4</span><br><span class="line">pick 873dfac Rename file name</span><br><span class="line">pick f7f3f6d Change my name a bit</span><br><span class="line">pick 310154e Update README formatting and add blame</span><br><span class="line">pick a5f4a0d Add cat-file</span><br><span class="line"></span><br><span class="line"><span class="comment"># Rebase 710f0f8..a5f4a0d onto 710f0f8</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Commands:</span></span><br><span class="line"><span class="comment"># p, pick &lt;commit&gt; = use commit</span></span><br><span class="line"><span class="comment"># r, reword &lt;commit&gt; = use commit, but edit the commit message</span></span><br><span class="line"><span class="comment"># e, edit &lt;commit&gt; = use commit, but stop for amending</span></span><br><span class="line"><span class="comment"># s, squash &lt;commit&gt; = use commit, but meld into previous commit</span></span><br><span class="line"><span class="comment"># f, fixup &lt;commit&gt; = like &quot;squash&quot;, but discard this commit&#x27;s log message</span></span><br><span class="line"><span class="comment"># x, exec &lt;command&gt; = run command (the rest of the line) using shell</span></span><br><span class="line"><span class="comment"># b, break = stop here (continue rebase later with &#x27;git rebase --continue&#x27;)</span></span><br><span class="line"><span class="comment"># d, drop &lt;commit&gt; = remove commit</span></span><br><span class="line"><span class="comment"># l, label &lt;label&gt; = label current HEAD with a name</span></span><br><span class="line"><span class="comment"># t, reset &lt;label&gt; = reset HEAD to a label</span></span><br><span class="line"><span class="comment"># m, merge [-C &lt;commit&gt; | -c &lt;commit&gt;] &lt;label&gt; [# &lt;oneline&gt;]</span></span><br><span class="line"><span class="comment"># .       create a merge commit using the original merge commit&#x27;s</span></span><br><span class="line"><span class="comment"># .       message (or the oneline, if no original merge commit was</span></span><br><span class="line"><span class="comment"># .       specified). Use -c &lt;commit&gt; to reword the commit message.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># These lines can be re-ordered; they are executed from top to bottom.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># If you remove a line here THAT COMMIT WILL BE LOST.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># However, if you remove everything, the rebase will be aborted.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Note that empty commits are commented out</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接著找到要修改的 commit 訊息後，將前方的 pick 更換成 reword，後存檔離開。</p>
+<blockquote>
+<p>pick 873dfac Rename file name</p>
+<mark class="label primary">reword</mark> f7f3f6d Change my name a bit
+<p>pick 310154e Update README formatting and add blame</p>
+<mark class="label primary">reword</mark> a5f4a0d Add cat-file
+
+</blockquote>
+<p>然後就會依序出現被選出來修改的 commit 的編輯畫面，這時候再進行修改即可。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Change my name a bit</span><br><span class="line"></span><br><span class="line"><span class="comment"># Please enter the commit message for your changes. Lines starting</span></span><br><span class="line"><span class="comment"># with &#x27;#&#x27; will be ignored, and an empty message aborts the commit.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Add cat-file</span><br><span class="line"></span><br><span class="line"><span class="comment"># Please enter the commit message for your changes. Lines starting</span></span><br><span class="line"><span class="comment"># with &#x27;#&#x27; will be ignored, and an empty message aborts the commit.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://linuxize.com/post/change-git-commit-message/">How to Change a Git Commit Message</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">7.6 Git Tools - Rewriting History</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"><i class="fa fa-tag"></i> Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/29/Hexo%E9%80%8F%E9%81%8ETravis-CI-deploy%E5%88%B0Github-page%E5%A4%B1%E6%95%97%E7%9A%84%E8%99%95%E7%90%86/" rel="prev" title="Hexo 透過 Travis CI deploy 到Github page 失敗的處理">
+                  <i class="fa fa-chevron-left"></i> Hexo 透過 Travis CI deploy 到Github page 失敗的處理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/21/Angular-%E6%9C%8D%E5%8B%99%E8%88%87%E4%BE%9D%E8%B3%B4%E6%B3%A8%E5%85%A5/" rel="next" title="Angular 服務與依賴注入">
+                  Angular 服務與依賴注入 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

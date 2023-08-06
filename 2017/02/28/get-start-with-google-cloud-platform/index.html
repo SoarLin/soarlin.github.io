@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="PG3_4p9inh6jJ-LnJOEhbVkRTHhjlg9nOy0sDl8WVJA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"soarlin.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"algolia":{"appID":"KI4M4QAKIQ","apiKey":"1a165dc800c9a291969bf32ecf642b20","indexName":"blog-index","hits":{"per_page":10}}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Google Cloud Platform 初體驗 實驗 Create VM on Google Compute Engine Install JDK and ElasticSearch 地雷區1   Install elasticsearch-analysis-ik 地雷區2   Setup RESTful API for ES Create Index,Type and Mapping">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google Cloud Platform 初體驗">
+<meta property="og:url" content="https://soarlin.github.io/2017/02/28/get-start-with-google-cloud-platform/index.html">
+<meta property="og:site_name" content="SoarLin">
+<meta property="og:description" content="Google Cloud Platform 初體驗 實驗 Create VM on Google Compute Engine Install JDK and ElasticSearch 地雷區1   Install elasticsearch-analysis-ik 地雷區2   Setup RESTful API for ES Create Index,Type and Mapping">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://soarlin.github.io/images/gcp/gce1.png">
+<meta property="og:image" content="https://soarlin.github.io/images/gcp/gce2.png">
+<meta property="og:image" content="https://soarlin.github.io/images/gcp/ssh.png">
+<meta property="article:published_time" content="2017-02-28T14:33:44.000Z">
+<meta property="article:modified_time" content="2022-07-28T04:58:07.426Z">
+<meta property="article:author" content="Soar Lin">
+<meta property="article:tag" content="elasticsearch">
+<meta property="article:tag" content="gcp">
+<meta property="article:tag" content="google cloud platform">
+<meta property="article:tag" content="google compute engine">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://soarlin.github.io/images/gcp/gce1.png">
+
+
+<link rel="canonical" href="https://soarlin.github.io/2017/02/28/get-start-with-google-cloud-platform/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://soarlin.github.io/2017/02/28/get-start-with-google-cloud-platform/","path":"2017/02/28/get-start-with-google-cloud-platform/","title":"Google Cloud Platform 初體驗"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Google Cloud Platform 初體驗 | SoarLin</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1722543-6"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-1722543-6","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="SoarLin" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SoarLin</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作中的知識累積</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/aboutme/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container">
+  <div class="algolia-stats"><hr></div>
+  <div class="algolia-hits"></div>
+  <div class="algolia-pagination"></div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%A9%97"><span class="nav-number">1.</span> <span class="nav-text">實驗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-VM-on-Google-Compute-Engine"><span class="nav-number">2.</span> <span class="nav-text">Create VM on Google Compute Engine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-JDK-and-ElasticSearch"><span class="nav-number">3.</span> <span class="nav-text">Install JDK and ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%9B%B7%E5%8D%801"><span class="nav-number">3.1.</span> <span class="nav-text">地雷區1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-elasticsearch-analysis-ik"><span class="nav-number">4.</span> <span class="nav-text">Install elasticsearch-analysis-ik</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%9B%B7%E5%8D%802"><span class="nav-number">4.1.</span> <span class="nav-text">地雷區2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Setup-RESTful-API-for-ES"><span class="nav-number">5.</span> <span class="nav-text">Setup RESTful API for ES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-Index-Type-and-Mapping"><span class="nav-number">6.</span> <span class="nav-text">Create Index,Type and Mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%9B%B7%E5%8D%803"><span class="nav-number">6.1.</span> <span class="nav-text">地雷區3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Upload-data-to-create-indices"><span class="nav-number">7.</span> <span class="nav-text">Upload data to create indices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Test-Query-API"><span class="nav-number">8.</span> <span class="nav-text">Test Query API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%8C%E8%A8%98%EF%BC%81"><span class="nav-number"></span> <span class="nav-text">後記！</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%AA%AA%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">補充說明</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Soar Lin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Soar Lin</p>
+  <div class="site-description" itemprop="description">記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">126</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SoarLin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SoarLin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:soar.lin@gmail.com" title="E-Mail → mailto:soar.lin@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/soarlin" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;soarlin" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/soarlin/" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/soarlin/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;soarlin&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/SoarLin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://soarlin.github.io/2017/02/28/get-start-with-google-cloud-platform/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Soar Lin">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SoarLin">
+      <meta itemprop="description" content="記錄跟自己工作中所接觸包含前端、後端技術, 有AWS, PHP, Linux, Laravel, Gulp, Vue.js 等相關技術筆記">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Google Cloud Platform 初體驗 | SoarLin">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Google Cloud Platform 初體驗
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2017-02-28 22:33:44" itemprop="dateCreated datePublished" datetime="2017-02-28T22:33:44+08:00">2017-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2022-07-28 12:58:07" itemprop="dateModified" datetime="2022-07-28T12:58:07+08:00">2022-07-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Server/" itemprop="url" rel="index"><span itemprop="name">Server</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="閱讀次數">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">閱讀次數：</span>
+      <span class="firestore-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/02/28/get-start-with-google-cloud-platform/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/28/get-start-with-google-cloud-platform/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- MarkdownTOC -->
+
+<ul>
+<li><a href="#google-cloud-platform-%E5%88%9D%E9%AB%94%E9%A9%97">Google Cloud Platform 初體驗</a><ul>
+<li><a href="#%E5%AF%A6%E9%A9%97">實驗</a></li>
+<li><a href="#create-vm-on-google-compute-engine">Create VM on Google Compute Engine</a></li>
+<li><a href="#install-jdk-and-elasticsearch">Install JDK and ElasticSearch</a><ul>
+<li><a href="#%E5%9C%B0%E9%9B%B7%E5%8D%801">地雷區1</a></li>
+</ul>
+</li>
+<li><a href="#install-elasticsearch-analysis-ik">Install elasticsearch-analysis-ik</a><ul>
+<li><a href="#%E5%9C%B0%E9%9B%B7%E5%8D%802">地雷區2</a></li>
+</ul>
+</li>
+<li><a href="#setup-restful-api-for-es">Setup RESTful API for ES</a></li>
+<li><a href="#create-indextype-and-mapping">Create Index,Type and Mapping</a><ul>
+<li><a href="#%E5%9C%B0%E9%9B%B7%E5%8D%803">地雷區3</a></li>
+</ul>
+</li>
+<li><a href="#upload-data-to-create-indices">Upload data to create indices</a></li>
+<li><a href="#test-query-api">Test Query API</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BE%8C%E8%A8%98%EF%BC%81">後記！</a><ul>
+<li><a href="#%E8%A3%9C%E5%85%85%E8%AA%AA%E6%98%8E">補充說明</a></li>
+</ul>
+</li>
+</ul>
+<!-- /MarkdownTOC -->
+
+
+<p><a name="google-cloud-platform-初體驗"></a><br>Google Cloud Platform 初體驗<br>==========================</p>
+<p>原本自己都使用 AWS，但上週聽阿宏說改用 google cloud platform 似乎價格會降低將近一半，所以就來試試看了，覺得 GCP 一開始的 Free Trial 給的不是很吸引人，因為只有 $300 美元 / 兩個月的期限，兩個月其實很快就過去了，然後馬上就要開始收費，很多東西可能才剛架設好，甚至還沒摸熟，服務還沒正式啟用，就開始要使用者付費，這感覺不是很愉快。</p>
+<p>反觀 AWS 的 Free Trial 方案，提供新帳號一年許多服務免費試用，雖然可以使用的等級是最低階的，不過對於新創事業來說，可以邊摸索雲端服務編開發跟部署，等差不多準備就緒應該也好幾個月過去了，接著熟悉雲端服務後，也差不多可以把等級提升正式營運了。</p>
+<span id="more"></span>
+
+<p>好了，廢話少說，這次就先找一個簡單的範例來做實驗，在開始之前覺得應該很簡單，實際操作後，才發現踩了好多雷，以及自己原本的文件不夠充足，但還是可以花時間一一克服，唯一比較辛苦的是….我家網路連不上stackoverflow….ＯＭＧ，對於一個工程師來說連不上這網站幾乎是武功被廢的狀態了</p>
+<p><a name="實驗"></a></p>
+<h2 id="實驗"><a href="#實驗" class="headerlink" title="實驗"></a>實驗</h2><p><strong>將 elasticsearch 移植到 google compute engine 上面運行</strong></p>
+<p>為了達成這目標，有底下幾個步驟：</p>
+<ol>
+<li>建立一台VM，類似 AWS EC2 上開啟一台 instance</li>
+<li>安裝 ElasticSearch，當然還必須先把 JDK 安裝好， JDK 版本也要對</li>
+<li>安裝中文分詞套件 <a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">ik</a>，須根據 es 版本編譯正確版本套件</li>
+<li>建立 RESTful API 來存取 ElasticSearch</li>
+<li>建立 Index 與 Type 以及 Mapping 資料</li>
+<li>上傳檔案批次建立 index 資料</li>
+<li>搜尋 API 測試</li>
+</ol>
+<p><a name="create-vm-on-google-compute-engine"></a></p>
+<h2 id="Create-VM-on-Google-Compute-Engine"><a href="#Create-VM-on-Google-Compute-Engine" class="headerlink" title="Create VM on Google Compute Engine"></a>Create VM on Google Compute Engine</h2><p>其實進入 <a target="_blank" rel="noopener" href="https://cloud.google.com/">Google Cloud Platform</a> 官網，就可以看到親切的繁體中文介面，大大增加了我想繼續試用下去的心情。</p>
+<p>進入 Compute Engine 的介面，選擇建立”執行個體”後，介面也都是中文的，很好理解，尤其是已經被 AWS 訓練過後，底下是我一開始的設定</p>
+<p><img src="https://soarlin.github.io/images/gcp/gce1.png" alt="參考圖1"></p>
+<ul>
+<li>名稱 : micro-elasticsearch-server(請自訂吧！)</li>
+<li>區域 : us-east-a (為了省錢，先放這邊吧！)</li>
+<li>機器類型 : 微型(f1-micro)<ul>
+<li>一個共用vCPU</li>
+<li>RAM : 0.6G</li>
+</ul>
+</li>
+<li>開機磁碟 :<ul>
+<li>Ubuntu 16.04 LTS (原本都用14.04，趁現在換個新版試試看)</li>
+<li>標準永久磁碟 10G (為了省錢，放棄SSD)</li>
+</ul>
+</li>
+<li>身分及 API 存取權 : 允許預設存取權</li>
+<li>防火牆 : 允許 HTTP, HTTPS 流量<ul>
+<li>之後再手動設定 Node.js 的 port</li>
+<li>以及本地端IP連 elasticsearch 的 9200 port</li>
+</ul>
+</li>
+<li>SSH 金鑰<ul>
+<li>請自行 cat ~/.ssh/id_rsa.pub 的內容貼上</li>
+<li>注意自己的登入名稱</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://soarlin.github.io/images/gcp/gce2.png" alt="參考圖2"></p>
+<p>建立完成後，就可以使用網頁版 Terminal 或是自己習慣的SSH軟體連線進去主機操作了，由於已經新增SSH金鑰，所以可以直接根據畫面上顯示的”外部IP”來連線</p>
+<p><img src="https://soarlin.github.io/images/gcp/ssh.png" alt="ssh"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh soar@104.XXX.XXX.106</span><br></pre></td></tr></table></figure>
+
+<p><a name="install-jdk-and-elasticsearch"></a></p>
+<h2 id="Install-JDK-and-ElasticSearch"><a href="#Install-JDK-and-ElasticSearch" class="headerlink" title="Install JDK and ElasticSearch"></a>Install JDK and ElasticSearch</h2><ul>
+<li>先安裝 Oracle JDK 8 ，<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04">教學文件</a></li>
+<li>安裝 Elasticsearch 到 Server 上，<a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-elasticsearch-on-ubuntu-16-04">教學文件</a><ul>
+<li>這裡我又想心血來潮去官網抓了 Elasticsearch 5.2.1 版的 deb 檔來安裝</li>
+<li>修改的設定檔如下</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/elasticsearch/elasticsearch.yml</span><br><span class="line"></span><br><span class="line">cluster.name: my-cluster</span><br><span class="line">http.port: 9200</span><br><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>啟動 Elasticsearch</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo service elasticsearch start</span><br></pre></td></tr></table></figure>
+
+<p><a name="地雷區1"></a></p>
+<h3 id="地雷區1"><a href="#地雷區1" class="headerlink" title="地雷區1"></a>地雷區1</h3><p>這裡我遇到了第一個地雷，原本以為可以順利啟動 Elasticsearch，但後來檢查的時候發現服務沒啟動(狀態檢查<code>sudo service elasticsearch status</code>)，原因是由於 JVM 啟動時所需要的記憶體預設為<strong>2G</strong>，靠！怎麼我之前那台 t2.micro 才 1G 的 RAM 都可以跑，在這邊就挫賽了，難道因為改用新版比較潮，所以記憶體也需要比較多？</p>
+<p>找了很多資料(從這時候開始無法連上stackoverflow)，最後try了很久，好像只需要修改 jvm 設定，在 5.2 版後可以在 <code>/etc/elasticsearch/</code> 下看到有個 <code>jvm.options</code> 的檔案，打開來修改吧！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 註解原本的這兩行</span><br><span class="line">#-Xms2g</span><br><span class="line">#-Xmx2g</span><br><span class="line"></span><br><span class="line"># 修改為下面這樣</span><br><span class="line">-Xms1g</span><br><span class="line">-Xmx1g</span><br></pre></td></tr></table></figure>
+
+<p>這時候，聰明的人應該會發現原本開啟的 vm 只有 0.6G RAM，應該不行吧！<strong>沒錯！</strong></p>
+<p>所以需要調整 vm 的等級，所以乖乖地將 vm stop 後，將機器類型從 f1-micro 更換到 g1-small (1 個 vCPU，1.7 GB 記憶體)，然後再重新 SSH 進去啟動 Elasticsearch 吧！</p>
+<p><a name="install-elasticsearch-analysis-ik"></a></p>
+<h2 id="Install-elasticsearch-analysis-ik"><a href="#Install-elasticsearch-analysis-ik" class="headerlink" title="Install elasticsearch-analysis-ik"></a>Install elasticsearch-analysis-ik</h2><p>安裝一下中文分詞的套件，因為已經不是第一次了，所以還滿容易上手的</p>
+<ul>
+<li>clone 專案回自己電腦</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/medcl/elasticsearch-analysis-ik.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切換到對應的 ES 版本<ul>
+<li>ES version 5.2.1 ==&gt; IK version 5.2.1</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout tags/v5.2.1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 mvn 來封裝 package</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mvn package</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上傳封裝後 zip 擋到 server 上</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sftp soar@104.XXX.XXX.106</span><br><span class="line">put target/releases/elasticsearch-analysis-ik-5.2.1.zip .</span><br><span class="line"></span><br><span class="line">ssh soar@104.XXX.XXX.106</span><br><span class="line"># copy zip to /usr/share/elasticsearch/plugins</span><br><span class="line">sudo -s</span><br><span class="line">cp elasticsearch-analysis-ik-5.2.1.zip /usr/share/elasticsearch/plugins</span><br><span class="line">cd /usr/share/elasticsearch/plugins</span><br><span class="line">mkdir ik</span><br><span class="line">unzip elasticsearch-analysis-ik-5.2.1.zip -d ik</span><br></pre></td></tr></table></figure>
+
+<p><a name="地雷區2"></a></p>
+<h3 id="地雷區2"><a href="#地雷區2" class="headerlink" title="地雷區2"></a>地雷區2</h3><p>其實是自己白癡，解壓縮後忘了把zip黨刪除，造成後來啟動 es 失敗，所以 plugins 目錄下請保持正確檔案結構</p>
+<p><a name="setup-restful-api-for-es"></a></p>
+<h2 id="Setup-RESTful-API-for-ES"><a href="#Setup-RESTful-API-for-ES" class="headerlink" title="Setup RESTful API for ES"></a>Setup RESTful API for ES</h2><p>使用自己之前建立的專案 <a target="_blank" rel="noopener" href="https://github.com/SoarLin/es-restful-api">es-restful-api</a>，應該可以很快的把服務建立</p>
+<p>前提是先安裝好 Node.js 以及 npm，安裝 Node.js 可參考 <a target="_blank" rel="noopener" href="https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions">官方文件</a> 或是 <a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04">digitalocean的文章</a></p>
+<p><a name="create-indextype-and-mapping"></a></p>
+<h2 id="Create-Index-Type-and-Mapping"><a href="#Create-Index-Type-and-Mapping" class="headerlink" title="Create Index,Type and Mapping"></a>Create Index,Type and Mapping</h2><p>根據之前專案補上的說明文件，大致上可以順利完成，但是在建立 Mapping 時出現狀況了</p>
+<p><a name="地雷區3"></a></p>
+<h3 id="地雷區3"><a href="#地雷區3" class="headerlink" title="地雷區3"></a>地雷區3</h3><p>因為 Elasticsearch 5.x 的版本內不在支援 “string” 這個資料類型，所以得改成 “text” 才能順利建立 mapping</p>
+<p><a name="upload-data-to-create-indices"></a></p>
+<h2 id="Upload-data-to-create-indices"><a href="#Upload-data-to-create-indices" class="headerlink" title="Upload data to create indices"></a>Upload data to create indices</h2><p>一樣可以參考專案內的文件，打開 upload 網址，然後將 blog 的 db.json 上傳上去，這邊只要注意原本 API 目錄內沒有 .es-last-index-time 這個檔案就好，才能把資料新建上去</p>
+<p><a name="test-query-api"></a></p>
+<h2 id="Test-Query-API"><a href="#Test-Query-API" class="headerlink" title="Test Query API"></a>Test Query API</h2><p>這邊依然根據專案的文件來測試吧！</p>
+<p><a name="後記！"></a></p>
+<h1 id="後記！"><a href="#後記！" class="headerlink" title="後記！"></a>後記！</h1><p>我這個白痴在 Server 上使用 ufw 來設定防火牆規則，而外部 Google Cloud Platform 的網路中也設定好規則，__但是！__主機裡的 ufw 規則一開始我就忘了開啟 22 port 來讓自己電腦連進去，所以就在我剛剛很開心地關掉 SSH 後，就再也無法連線進去了，所以今天所做的一切都白費了。</p>
+<p><a name="補充說明"></a></p>
+<h2 id="補充說明"><a href="#補充說明" class="headerlink" title="補充說明"></a>補充說明</h2><p>後來經過半個多小時的掙扎，以為複製一台機器就有機會成功，結果只是規格複製，裡面空空如也。不過卻有找到可以再開機的時候，讓主機預先執行指定的 script 語法，所以再回到不願放棄的 VM 裡設定，增加自訂 script</p>
+<p>但是記得要先停止 VM 再來更改設定</p>
+<p><strong>自訂中繼資料</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>startup-script</td>
+<td>sudo ufw allow ssh</td>
+</tr>
+</tbody></table>
+<p>也可以在對等 REST 的描述裡找到位置添加，位於 “metadata” 下 “items” 的陣列內加入一組 object，包含 key 與 value</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;metadata&quot;: &#123;</span><br><span class="line">  &quot;kind&quot;: &quot;compute#metadata&quot;,</span><br><span class="line">  &quot;fingerprint&quot;: &quot;GXxxxxxxxx=&quot;,</span><br><span class="line">  &quot;items&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;key&quot;: &quot;startup-script&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;sudo ufw allow ssh&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;key&quot;: &quot;ssh-keys&quot;,</span><br><span class="line">      &quot;value&quot;: &quot;soar:ssh-rsa AAAAWMrLjP[中間省略]zoHWzIzP/ soar@Soar.local&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    捐贈
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/paypal.jpg" alt="Soar Lin 貝寶">
+        <span>貝寶</span>
+      </div>
+      <div>
+        <img src="/images/richart.jpg" alt="Soar Lin Richart">
+        <span>Richart</span>
+      </div>
+      <div>
+        <img src="/images/bitcoin.jpg" alt="Soar Lin 比特幣">
+        <span>比特幣</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/elasticsearch/" rel="tag"><i class="fa fa-tag"></i> elasticsearch</a>
+              <a href="/tags/gcp/" rel="tag"><i class="fa fa-tag"></i> gcp</a>
+              <a href="/tags/google-cloud-platform/" rel="tag"><i class="fa fa-tag"></i> google cloud platform</a>
+              <a href="/tags/google-compute-engine/" rel="tag"><i class="fa fa-tag"></i> google compute engine</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/01/22/Migration-Vue-to-2/" rel="prev" title="Vue 1.x 升級至 2.0 的辛酸歷程">
+                  <i class="fa fa-chevron-left"></i> Vue 1.x 升級至 2.0 的辛酸歷程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/03/29/use-travis-ci-auto-deploy-to-github/" rel="next" title="使用 Travis CI 自動發布 Hexo 內容到 Github">
+                  使用 Travis CI 自動發布 Hexo 內容到 Github <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-mug-hot"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Soar Lin</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.js" integrity="sha256-g68T2rU86flpyzVWWCcZxWGWISTfOXVwEpZgyKOaZ1c=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.43.0/dist/instantsearch.production.min.js" integrity="sha256-IFMAFYX3cRorWK/pTWiu9XTWyCs0FoUFWEHVzQDRjnE=" crossorigin="anonymous"></script><script src="/js/third-party/search/algolia-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-app-compat.js" integrity="sha256-Ha44Wy1mfvy/FARbw1LEZEP+6CR0xY9DjqQO0CxiR+A=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/firebase@9.8.4/firebase-firestore-compat.js" integrity="sha256-/PPuiA5ROMN6ofcCtoekNMy+IJpZYKYEVHGiJWl1FY8=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="firestore" type="application/json">{"enable":true,"collection":"articles","apiKey":"AIzaSyCUba_XQpy8AYwht-WdvjBliPno3q2YwKo","projectId":"blog-show-numbers"}</script>
+  <script src="/js/third-party/statistics/firestore.js"></script>
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"soarlin","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
