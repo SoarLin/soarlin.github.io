@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://soarlin.github.io/2024/04/13/javascript-new-date/</loc>
+    
+    <lastmod>2024-04-13</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://soarlin.github.io/2023/08/06/chrome-extension-side-project/</loc>
     
     <lastmod>2023-08-06</lastmod>
@@ -368,7 +375,7 @@
 
   <url>
     <loc>https://soarlin.github.io/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -376,882 +383,889 @@
   
   <url>
     <loc>https://soarlin.github.io/tags/facebook-sdk/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/android/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/webview/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Angular/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/dependency-injection/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/ellipsis/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/animation/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/transform/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/background/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/transition/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Composer/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/NPM/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/PHP/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Node-js/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Git/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/google-analytics/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/facebook-pixel/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/tracking/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/gulp/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Hexo/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/TravisCI/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Github/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Laravel/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/artisan/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/elixir/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/less/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/mixins/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/RWD/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/color/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/css-preprocessor/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/linux/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/crontab/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/mount/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vue/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/laravel/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vuex/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vuejs/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/postcss/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/css-post-processor/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/SPRINT/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/%E8%A1%9D%E5%88%BA%E8%A8%88%E7%95%AB/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Prototype/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/sass/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/zsh/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/bash/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/s3/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/elastictranscoder/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/lambda/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/node-js/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/i18n/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/twig/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/slim-3/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/gettext/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/git/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/git-server/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/gitolite/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/gitweb/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/firebase/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/fcm/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/service-worker/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vuecli/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/webpack/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/push-notification/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/npm/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/pug/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/applepay/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/safari/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/mac/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/iphone/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/elasticsearch/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/index/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/query/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/koa/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/java/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/maven/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/eslint/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/ejs/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/bower/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/gcp/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/google-cloud-platform/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/google-compute-engine/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/msgfmt/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/otool/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/install-name-tool/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/serverless/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/apigateway/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/webhook/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/facebook/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/messenger/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/axios/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/sync/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/unison/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/inotifywait/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/element/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vuesax/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/scss/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/slim/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/autoload/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/composer/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/psr-4/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/SQS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/vpc/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/subnet/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/internet-gateway/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/nat-gateway/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/CSS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/SCSS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/mixin/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/flexbox/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/security/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/https/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/injection/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/XSS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/CSRF/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/password/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/promise/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/javascript/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/async/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/react/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/antd/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/css/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/NTFS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Tuxera/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/Chrome-Extension/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/React/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/tags/OpenAI/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://soarlin.github.io/tags/Date/</loc>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1260,63 +1274,63 @@
   
   <url>
     <loc>https://soarlin.github.io/categories/PHP/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/Frontend/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/Server/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/Others/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/CI-CD/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/Linux/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/Workflow/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/AWS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://soarlin.github.io/categories/macOS/</loc>
-    <lastmod>2023-08-06</lastmod>
+    <lastmod>2024-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
